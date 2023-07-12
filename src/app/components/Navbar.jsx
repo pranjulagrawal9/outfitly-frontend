@@ -10,7 +10,7 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed left-0 top-0 right-0">
+    <nav className="fixed left-0 top-0 right-0 z-20">
       <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:gap-32 lg:overflow-visible lg:h-16 lg:items-center">
         <div className="flex justify-between p-3 h-16 shadow-md lg:shadow-none lg:h-full lg:ml-5">
           <div
@@ -28,7 +28,7 @@ function Navbar() {
           </div>
 
           <div className="w-10 relative right-1/2 translate-x-1/2">
-            <Image src={logo} />
+            <Image src={logo} alt="logo" />
           </div>
         </div>
 
