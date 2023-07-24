@@ -43,6 +43,7 @@ function Slider() {
             fill="true"
             alt="carousel"
             className="block w-full h-full object-cover"
+            priority="true"
           />
         </swiper-slide>
       ))}
