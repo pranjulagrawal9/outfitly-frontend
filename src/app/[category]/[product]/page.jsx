@@ -14,7 +14,10 @@ function Product() {
     "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10307423/2019/11/7/5058ade6-1476-4bc1-ad8c-bbb9bb5653d11573110418743-Roadster-Men-Tshirts-241573110416534-2.jpg",
   ];
 
+  const availableSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
+
   const [currMainImage, setCurrMainImage] = useState(0);
+  const [selectedSize, setSelectedSize] = useState();
 
   return (
     <div className="flex flex-col md:flex-row md:mx-10 md:gap-7 md:mt-10">
@@ -31,7 +34,7 @@ function Product() {
         <div className="flex w-full gap-5 mt-5 px-3 md:flex-col md:w-[15%] md:mt-0 md:px-0">
           {productImages?.map((image, idx) => (
             <div
-              className={`flex-1 md:flex-none ${
+              className={`flex-1 md:flex-none cursor-pointer ${
                 currMainImage == idx ? "border-2 border-sky-400" : ""
               }`}
               key={idx}
@@ -64,32 +67,28 @@ function Product() {
             Select Size
           </h2>
           <div className="flex gap-5">
-            <div className="border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600">
-              S
-            </div>
-            <div className="border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600">
-              M
-            </div>
-            <div className="border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600">
-              L
-            </div>
-            <div className="border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600">
-              XL
-            </div>
-            <div className="border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600">
-              2XL
-            </div>
+            {availableSizes?.map((size) => (
+              <div
+                className={`border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600 cursor-pointer ${
+                  selectedSize === size ? "bg-black text-white" : ""
+                }`}
+                key={size}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </div>
+            ))}
           </div>
         </div>
 
         <div className="flex gap-4 uppercase font-bold mt-5">
-          <div className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded">
+          <div className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded cursor-pointer">
             <div className="flex gap-3 items-center">
               <PiShoppingBagLight size="24px" />
               <span>Add to bag</span>
             </div>
           </div>
-          <div className="flex-1 border rounded border-gray-400 flex justify-center py-3">
+          <div className="flex-1 border rounded border-gray-400 flex justify-center py-3 cursor-pointer">
             <div className="flex gap-3 items-center">
               <AiOutlineHeart size="24px" />
               <span>Wishlist</span>
