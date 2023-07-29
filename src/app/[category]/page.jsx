@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import { PiCaretDownLight } from "react-icons/pi";
-import {AiFillStar} from 'react-icons/ai'
+import { AiFillStar } from "react-icons/ai";
 
 function Products() {
   const [price, setPrice] = useState(10000);
 
   return (
-    <div className="max-w-[1536px] mx-auto">
+    <>
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">
         <span className="uppercase font-bold pl-5 pt-5">Filters</span>
         <div className="relative mr-3 group cursor-pointer z-30">
@@ -326,16 +326,13 @@ function Products() {
               <div className="font-bold mt-1">Rs. 249</div>
             </div>
           </div>
-          
-          
-          
 
           {/* dummy cards */}
           <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
           <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
