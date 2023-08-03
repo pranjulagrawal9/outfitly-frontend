@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
+import { BsBag } from "react-icons/bs";
 import logo from "../../../public/logo.png";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
@@ -11,8 +12,8 @@ function Navbar() {
 
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
-      <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:gap-32 lg:overflow-visible lg:h-16 lg:items-center">
-        <div className="flex justify-between p-3 h-16 shadow-md lg:shadow-none lg:h-full lg:ml-5">
+      <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:gap-32 lg:overflow-visible lg:h-16 lg:items-center lg:justify-between">
+        <div className="flex justify-between p-3 h-16 shadow-md lg:shadow-none lg:h-full lg:ml-10 items-center">
           <div
             className="cursor-pointer lg:hidden"
             onClick={() => {
@@ -27,13 +28,20 @@ function Navbar() {
             )}
           </div>
 
-          <div className="w-10 relative right-1/2 translate-x-1/2">
+          <div className="w-10 relative">
             <Image src={logo} alt="logo" />
+          </div>
+
+          <div className="lg:hidden relative">
+            <BsBag size="24px" />
+            <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
+              1
+            </div>
           </div>
         </div>
 
         <div
-          className={`p-5 h-[calc(100vh-64px)] hidden ${
+          className={`p-5 h-[calc(100vh-64px)] hidden lg:mr-20 ${
             isMenuOpen ? "!flex flex-col" : ""
           } lg:flex lg:flex-row lg:h-fit lg:p-0 lg:gap-10`}
         >
@@ -41,6 +49,13 @@ function Navbar() {
           <MenuItem title="Women" />
           <MenuItem title="Kids" />
           <MenuItem title="Home & Living" />
+        </div>
+
+        <div className="max-lg:hidden mr-10 relative">
+          <BsBag size="24px" />
+          <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
+            1
+          </div>
         </div>
       </div>
     </nav>

@@ -6,7 +6,7 @@ function MenuItem({title}) {
 
   return (
     <div
-      className="border-b-2 py-5 cursor-pointer group lg:border-none"
+      className="border-b-2 py-5 lg:py-0 cursor-pointer group lg:border-none"
       onClick={() => setIsMenuItemOpen((prev) => !prev)}
     >
       <div className="lg:group">
