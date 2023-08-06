@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className} style={{ paddingTop: "64px" }}>
         <Navbar />
         <div className="max-w-[1536px] mx-auto">{children}</div>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );
