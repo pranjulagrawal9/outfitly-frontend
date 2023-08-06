@@ -12,7 +12,7 @@ function Navbar() {
 
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
-      <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:gap-32 lg:overflow-visible lg:h-16 lg:items-center lg:justify-between">
+      <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:overflow-visible lg:h-16 lg:items-center lg:justify-between">
         <div className="flex justify-between p-3 h-16 shadow-md lg:shadow-none lg:h-full lg:ml-10 items-center">
           <div
             className="cursor-pointer lg:hidden"
