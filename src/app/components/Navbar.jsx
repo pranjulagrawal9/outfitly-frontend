@@ -6,9 +6,15 @@ import { BsBag } from "react-icons/bs";
 import logo from "../../../public/logo.png";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cart = useSelector((state) => state.cart);
+  const cartCount = cart
+    .map((item) => item.qty)
+    .reduce((total, current) => total + current, 0);
 
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
@@ -35,7 +41,7 @@ function Navbar() {
           <div className="lg:hidden relative">
             <BsBag size="24px" />
             <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
-              1
+              {cartCount}
             </div>
           </div>
         </div>
@@ -51,12 +57,14 @@ function Navbar() {
           <MenuItem title="Home & Living" />
         </div>
 
-        <div className="max-lg:hidden mr-10 relative">
-          <BsBag size="24px" />
-          <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
-            1
+        <Link href="/cart">
+          <div className="max-lg:hidden mr-10 relative">
+            <BsBag size="24px" />
+            <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
+              {cartCount}
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </nav>
   );

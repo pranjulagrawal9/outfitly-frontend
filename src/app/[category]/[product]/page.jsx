@@ -1,12 +1,15 @@
 "use client";
 
+import { addToCart } from "@/app/store/features/cart/cartSlice";
 import Image from "next/image";
 import { useState } from "react";
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { PiShoppingBagLight } from "react-icons/pi";
+import { useDispatch } from "react-redux";
 
 function Product() {
   const productDetails = {
+    id: "123",
     images: [
       "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
       "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10307423/2019/11/7/6700b1db-63b4-4e2c-b937-48a52277417b1573110418700-Roadster-Men-Tshirts-241573110416534-3.jpg",
@@ -14,6 +17,7 @@ function Product() {
       "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
       "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10307423/2019/11/7/5058ade6-1476-4bc1-ad8c-bbb9bb5653d11573110418743-Roadster-Men-Tshirts-241573110416534-2.jpg",
     ],
+    title: "Men's White World Peace Graphic Printed T-shirt",
     availableSizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     price: 449,
     description:
@@ -24,6 +28,7 @@ function Product() {
 
   const [currMainImage, setCurrMainImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState();
+  const dispatch = useDispatch();
 
   return (
     <div className="flex flex-col md:flex-row md:mx-10 md:gap-7 md:mt-10">
@@ -59,9 +64,7 @@ function Product() {
       </div>
       <div className="px-3 mt-5 md:flex-1 md:mt-0">
         <h2 className="font-bold text-lg lg:text-2xl md:mb-2">Bewacoof</h2>
-        <h3 className="mb-3 lg:text-xl">
-          Men's White World Peace Graphic Printed T-shirt
-        </h3>
+        <h3 className="mb-3 lg:text-xl">{productDetails.title}</h3>
         <div className="bg-slate-100 bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm border-2 w-fit">
           <span>4.2</span>
           <AiFillStar className="text-green-600" />
@@ -88,7 +91,12 @@ function Product() {
         </div>
 
         <div className="flex gap-4 uppercase font-bold mt-5">
-          <div className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded cursor-pointer">
+          <div
+            className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded cursor-pointer"
+            onClick={() =>
+              dispatch(addToCart({...productDetails, selectedSize}))
+            }
+          >
             <div className="flex gap-3 items-center">
               <PiShoppingBagLight size="24px" />
               <span>Add to bag</span>
