@@ -3,11 +3,12 @@
 import { addToCart } from "@/app/store/features/cart/cartSlice";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { PiShoppingBagLight } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function Product() {
   const productDetails = {
@@ -37,6 +38,16 @@ function Product() {
   const itemInCart = cart.find((item) => item.id === productDetails.id)
     ? true
     : false;
+
+  const customId = "custom-id-for-toast";
+
+  const notify = () => {
+    toast.info("Please select your size!", {
+      toastId: customId,
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
+    });
+  };
 
   return (
     <div className="flex flex-col md:flex-row md:mx-10 md:gap-7 md:mt-10">
@@ -106,7 +117,9 @@ function Product() {
             className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded cursor-pointer"
             onClick={() =>
               !itemInCart
-                ? dispatch(addToCart({ ...productDetails, selectedSize }))
+                ? !selectedSize
+                  ? notify()
+                  : dispatch(addToCart({ ...productDetails, selectedSize }))
                 : router.push("/cart")
             }
           >
@@ -115,6 +128,7 @@ function Product() {
               <span>{itemInCart ? "Go to bag" : "Add to bag"}</span>
             </div>
           </div>
+          <ToastContainer />
           <div className="flex-1 border rounded border-gray-400 flex justify-center py-3 cursor-pointer">
             <div className="flex gap-3 items-center">
               <AiOutlineHeart size="24px" />
