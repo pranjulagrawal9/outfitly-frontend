@@ -60,9 +60,11 @@ function Navbar() {
         <Link href="/cart">
           <div className="max-lg:hidden mr-10 relative">
             <BsBag size="24px" />
-            <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
-              {cartCount}
-            </div>
+            {cartCount > 0 && (
+              <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
+                {cartCount}
+              </div>
+            )}
           </div>
         </Link>
       </div>

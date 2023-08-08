@@ -2,10 +2,12 @@
 
 import { addToCart } from "@/app/store/features/cart/cartSlice";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { PiShoppingBagLight } from "react-icons/pi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Product() {
   const productDetails = {
@@ -29,6 +31,11 @@ function Product() {
   const [currMainImage, setCurrMainImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState();
   const dispatch = useDispatch();
+  const router = useRouter();
+  const cart = useSelector((state) => state.cart);
+  const itemInCart = cart.find((item) => item.id === productDetails.id)
+    ? true
+    : false;
 
   return (
     <div className="flex flex-col md:flex-row md:mx-10 md:gap-7 md:mt-10">
@@ -94,12 +101,14 @@ function Product() {
           <div
             className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded cursor-pointer"
             onClick={() =>
-              dispatch(addToCart({...productDetails, selectedSize}))
+              !itemInCart
+                ? dispatch(addToCart({ ...productDetails, selectedSize }))
+                : router.push("/cart")
             }
           >
             <div className="flex gap-3 items-center">
               <PiShoppingBagLight size="24px" />
-              <span>Add to bag</span>
+              <span>{itemInCart ? "Go to bag" : "Add to bag"}</span>
             </div>
           </div>
           <div className="flex-1 border rounded border-gray-400 flex justify-center py-3 cursor-pointer">
