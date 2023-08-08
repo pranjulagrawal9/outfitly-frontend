@@ -13,17 +13,17 @@ function Slider() {
   ];
   const swiperElRef = useRef(null);
 
-  useEffect(() => {
-    // listen for Swiper events using addEventListener
-    swiperElRef.current.addEventListener("progress", (e) => {
-      const [swiper, progress] = e.detail;
-      console.log(progress);
-    });
+  // useEffect(() => {
+  //   // listen for Swiper events using addEventListener
+  //   swiperElRef.current.addEventListener("progress", (e) => {
+  //     const [swiper, progress] = e.detail;
+  //     console.log(progress);
+  //   });
 
-    swiperElRef.current.addEventListener("slidechange", (e) => {
-      console.log("slide changed");
-    });
-  }, []);
+  //   swiperElRef.current.addEventListener("slidechange", (e) => {
+  //     console.log("slide changed");
+  //   });
+  // }, []);
 
   return (
     <swiper-container
@@ -37,7 +37,7 @@ function Slider() {
       autoplay-disable-on-interaction="false"
     >
       {slides.map((slide, idx) => (
-        <swiper-slide key={idx}>
+        <swiper-slide key={idx} data-swiper-slide-index={idx}>
           <Image
             src={slide}
             fill="true"

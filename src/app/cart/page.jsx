@@ -30,7 +30,7 @@ function Cart() {
       <div className="flex flex-col lg:flex-row gap-5">
         <div className="flex flex-col gap-5 lg:w-3/5">
           {cart?.map((item) => (
-            <CartItem {...item} />
+            <CartItem {...item} key={item.id} />
           ))}
         </div>
 
@@ -77,7 +77,7 @@ function Cart() {
   ) : (
     <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
       <div className="flex flex-col gap-3 items-center">
-        <Image src={nothingInBag} width={150} height={0} />
+        <Image src={nothingInBag} width={150} height={0} alt="nothing in the bag" />
         <h2 className="text-lg">Nothing in the bag</h2>
         <Link href="/">
           <div className="text-xl border-2 border-[#51cccc] py-2 px-3 rounded-md text-[#51cccc] font-medium cursor-pointer">
