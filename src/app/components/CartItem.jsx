@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { AiOutlineDown } from "react-icons/ai";
-import { changeQuantity, changeSize, removeItem } from "../store/features/cart/cartSlice";
+import {
+  changeQuantity,
+  changeSize,
+  removeItem,
+} from "../store/features/cart/cartSlice";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -11,7 +15,7 @@ function CartItem(item) {
   const sizeModalRef = useRef(null);
   const QtyModalRef = useRef(null);
 
-//   const [selectedSize, setSelectedSize] = useState(item.selectedSize);
+  //   const [selectedSize, setSelectedSize] = useState(item.selectedSize);
   const dispatch = useDispatch();
 
   function closeSizeModal(e) {
@@ -41,7 +45,10 @@ function CartItem(item) {
       <div className="flex gap-3 p-3 lg:p-5 lg:justify-between">
         <div className="flex flex-col gap-4">
           <h2 className="text-slate-500 lg:text-lg">{item.title}</h2>
-          <h2 className="text-lg font-bold lg:text-xl">₹ {item.price}</h2>
+          <div className="flex items-end gap-1">
+            <h2 className="text-lg font-bold lg:text-xl">₹ {item.price}</h2>
+            <h3 className="text-gray-400 line-through">₹ {item.mrp}</h3>
+          </div>
           <div className="flex gap-5">
             <div
               className="bg-slate-100 px-3 py-2 rounded-md flex items-center gap-1 cursor-pointer"
@@ -66,7 +73,7 @@ function CartItem(item) {
                       className="text-center p-3 hover:bg-gray-200 cursor-pointer"
                       key={size}
                       onClick={() => {
-                        dispatch(changeSize({id: item.id, size}))
+                        dispatch(changeSize({ id: item.id, size }));
                         setOpenSizeModal(false);
                       }}
                     >
@@ -99,7 +106,7 @@ function CartItem(item) {
                       className="text-center p-3 hover:bg-gray-200 cursor-pointer"
                       key={qty}
                       onClick={() => {
-                        dispatch(changeQuantity({id: item.id, qty}))
+                        dispatch(changeQuantity({ id: item.id, qty }));
                         setOpenQtyModal(false);
                       }}
                     >
@@ -128,7 +135,9 @@ function CartItem(item) {
         >
           Remove
         </span>
-        <span className="flex-[2] text-center py-4 cursor-pointer">Move to Wishlist</span>
+        <span className="flex-[2] text-center py-4 cursor-pointer">
+          Move to Wishlist
+        </span>
       </div>
     </div>
   );

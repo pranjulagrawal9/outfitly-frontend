@@ -22,6 +22,7 @@ function Product() {
     title: "Men's White World Peace Graphic Printed T-shirt",
     availableSizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     price: 449,
+    mrp: 1099,
     description:
       "White and Mustard yellow colourblocked T-shirt, has a round neck, and short sleeves",
     size: "The model (height 6') is wearing a size M",
@@ -76,7 +77,10 @@ function Product() {
           <span>4.2</span>
           <AiFillStar className="text-green-600" />
         </div>
-        <h2 className="text-2xl font-bold mt-3">{`₹ ${productDetails.price}`}</h2>
+        <div className="flex mt-3 items-end gap-1">
+          <h2 className="text-2xl font-bold">₹ {productDetails.price}</h2>
+          <h3 className="text-gray-400 line-through">₹ {productDetails.mrp}</h3>
+        </div>
 
         <div className="mt-5">
           <h2 className="font-semibold mb-3 uppercase lg:text-lg">
