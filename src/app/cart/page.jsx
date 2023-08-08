@@ -2,6 +2,9 @@
 
 import { useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
+import Image from "next/image";
+import nothingInBag from "../../../public/nothingInBag.png";
+import Link from "next/link";
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
@@ -18,7 +21,7 @@ function Cart() {
 
   const discount = totalMRP - totalprice;
 
-  return (
+  return cart.length > 0 ? (
     <div className="px-5 mt-5 max-w-7xl mx-auto">
       <h2 className="mb-5">
         <span className="font-bold lg:text-lg">My Bag</span> {totalItems} item
@@ -69,6 +72,18 @@ function Cart() {
             </span>
           </div>
         </div>
+      </div>
+    </div>
+  ) : (
+    <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+      <div className="flex flex-col gap-3 items-center">
+        <Image src={nothingInBag} width={150} height={0} />
+        <h2 className="text-lg">Nothing in the bag</h2>
+        <Link href="/">
+          <div className="text-xl border-2 border-[#51cccc] py-2 px-3 rounded-md text-[#51cccc] font-medium cursor-pointer">
+            Continue Shopping
+          </div>
+        </Link>
       </div>
     </div>
   );
