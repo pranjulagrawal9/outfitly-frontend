@@ -13,41 +13,31 @@ function Slider() {
   ];
   const swiperElRef = useRef(null);
 
-  // useEffect(() => {
-  //   // listen for Swiper events using addEventListener
-  //   swiperElRef.current.addEventListener("progress", (e) => {
-  //     const [swiper, progress] = e.detail;
-  //     console.log(progress);
-  //   });
-
-  //   swiperElRef.current.addEventListener("slidechange", (e) => {
-  //     console.log("slide changed");
-  //   });
-  // }, []);
-
   return (
-    <swiper-container
-      class="w-full h-40 relative z-10 mx-auto md:h-60 lg:h-80 xl:h-96"
-      ref={swiperElRef}
-      navigation="true"
-      pagination="true"
-      pagination-clickable="true"
-      loop="true"
-      autoplay-delay="2500"
-      autoplay-disable-on-interaction="false"
-    >
-      {slides.map((slide, idx) => (
-        <swiper-slide key={idx} data-swiper-slide-index={idx}>
-          <Image
-            src={slide}
-            fill="true"
-            alt="carousel"
-            className="block w-full h-full object-cover"
-            priority="true"
-          />
-        </swiper-slide>
-      ))}
-    </swiper-container>
+    <div className="h-40 md:h-60 lg:h-80 xl:h-96">
+      <swiper-container
+        class="w-full h-full relative"
+        ref={swiperElRef}
+        navigation="true"
+        pagination="true"
+        pagination-clickable="true"
+        loop="true"
+        autoplay-delay="2500"
+        autoplay-disable-on-interaction="false"
+      >
+        {slides.map((slide, idx) => (
+          <swiper-slide key={idx} data-swiper-slide-index={idx}>
+            <Image
+              src={slide}
+              fill="true"
+              alt="carousel"
+              className="block w-full h-full object-cover"
+              priority="true"
+            />
+          </swiper-slide>
+        ))}
+      </swiper-container>
+    </div>
   );
 }
 
