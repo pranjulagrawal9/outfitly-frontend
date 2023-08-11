@@ -1,12 +1,157 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiCaretDownLight } from "react-icons/pi";
 import { AiFillStar } from "react-icons/ai";
 
 function Products() {
   const [price, setPrice] = useState(10000);
+  const [products, setProducts] = useState([]);
+  const allproducts = [
+    {
+      brand: "Roadster",
+      title: "Men Cotton Pure Cotton T-shirt",
+      price: 249,
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
+      ],
+      rating: 4.2,
+      category: "tshirts",
+      sortBy: "recommended",
+    },
+    {
+      brand: "Roadster",
+      title: "Men Cotton Pure Cotton T-shirt",
+      price: 249,
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
+      ],
+      rating: 4.2,
+      category: "tshirts",
+      sortBy: "recommended",
+    },
+    {
+      brand: "Roadster",
+      title: "Men Cotton Pure Cotton T-shirt",
+      price: 249,
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
+      ],
+      rating: 4.2,
+      category: "tshirts",
+      sortBy: "recommended",
+    },
+    {
+      brand: "Roadster",
+      title: "Men Cotton Pure Cotton T-shirt",
+      price: 249,
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
+      ],
+      rating: 4.2,
+      category: "tshirts",
+      sortBy: "recommended",
+    },
+    {
+      brand: "Roadster",
+      title: "Men Cotton Pure Cotton T-shirt",
+      price: 249,
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
+      ],
+      rating: 4.2,
+      category: "tshirts",
+      sortBy: "recommended",
+    },
+    {
+      brand: "Roadster",
+      title: "Men Cotton Pure Cotton T-shirt",
+      price: 249,
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
+      ],
+      rating: 4.2,
+      category: "tshirts",
+      sortBy: "recommended",
+    },
+    {
+      brand: "The Indian Garage Co",
+      title: "Men White Striped Casual Shirt",
+      price: 527,
+      images: [
+        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10673544/2019/9/24/6b9c7688-7ca2-4d11-9e5b-a3745ecd8f761569310358973-The-Indian-Garage-Co-Men-Shirts-8481569310357131-1.jpg",
+        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10673544/2019/9/24/729859d8-cc66-4465-ba81-27028b9d7a461569310358945-The-Indian-Garage-Co-Men-Shirts-8481569310357131-2.jpg",
+      ],
+      rating: 4.1,
+      category: "shirts",
+      sortBy: "new",
+    },
+    {
+      brand: "Levis",
+      title: "Men 511 Slim Low Rise Jeans",
+      price: 3499,
+      images: [
+        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/20516480/2023/1/11/776df41f-ddc3-493c-826d-95eb1425c2bc1673419506083-Levis-Men-511-Slim-Fit-Low-Rise-Heavy-Fade-Stretchable-Jeans-2.jpg",
+        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/20516480/2023/1/11/d33205e8-56b2-45d2-aefc-0e1e7a1c391b1673419506094-Levis-Men-511-Slim-Fit-Low-Rise-Heavy-Fade-Stretchable-Jeans-1.jpg",
+      ],
+      rating: 4.8,
+      category: "jeans",
+      sortBy: "discount",
+    },
+    {
+      brand: "Urbano Fashion",
+      title: "Men 511 Slim Low Rise Jeans",
+      price: 3456,
+      images: [
+        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/13823708/2022/10/19/398d64b2-096b-4a41-9ee9-95c005fc4db01666156159187-Urbano-Fashion-Men-Black-Slim-Fit-Mid-Rise-Clean-Look-Stretc-1.jpg",
+        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/13823708/2022/10/19/fe7b92ac-c1f9-46e7-b7c7-8fba7da54da71666156159178-Urbano-Fashion-Men-Black-Slim-Fit-Mid-Rise-Clean-Look-Stretc-2.jpg",
+      ],
+      rating: 4.1,
+      category: "jeans",
+      sortBy: "discount",
+    },
+  ];
+
+  const handleCheckboxChange = () => {
+    const checkboxes = document.querySelectorAll(".checkbox");
+    const map = {};
+
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        if (map[checkbox.name]) map[checkbox.name].push(checkbox.value);
+        else map[checkbox.name] = [checkbox.value];
+      }
+    });
+
+    // if no checkbox is checked then show all products
+    if (Object.keys(map).length === 0) {
+      setProducts(allproducts);
+      return;
+    }
+
+    // here fetch products for selected categories using API
+    const filteredProducts = allproducts.filter((product) => {
+      return Object.keys(map).every((key) => map[key].includes(product[key]));
+    });
+    setProducts(filteredProducts);
+  };
+
+  useEffect(() => {
+    // here call API to get all the products of selected category
+    setProducts(allproducts);
+  }, []);
+
+  function getUniquevalues(allproducts, element) {
+    const elementArray = allproducts.map((product) => product[element]);
+    return [...new Set(elementArray)];
+  }
 
   return (
     <>
@@ -34,76 +179,48 @@ function Products() {
             <div className="border-b-[1px] border-r-[1px] p-5">
               <h3 className="uppercase mb-2 font-bold">Categories</h3>
               <div className="flex flex-col gap-2">
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="tshirts"
-                    id="tshirts"
-                    className="cursor-pointer w-5 h-5"
-                  />
-                  <label htmlFor="tshirts" className="cursor-pointer">
-                    {" "}
-                    Tshirts
-                  </label>
-                </div>
-
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="shirts"
-                    id="shirts"
-                    className="cursor-pointer w-5 h-5"
-                  />
-                  <label htmlFor="shirts"> Shirts</label>
-                </div>
-
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="jeans"
-                    id="jeans"
-                    className="cursor-pointer w-5 h-5"
-                  />
-                  <label htmlFor="jeans">Jeans</label>
-                </div>
+                {getUniquevalues(allproducts, "category").map(
+                  (category, idx) => (
+                    <div className="flex gap-2 cursor-pointer" key={idx}>
+                      <input
+                        type="checkbox"
+                        name="category"
+                        value={category}
+                        id={category}
+                        className="cursor-pointer w-5 h-5 checkbox"
+                        onChange={handleCheckboxChange}
+                      />
+                      <label
+                        htmlFor={category}
+                        className="cursor-pointer capitalize"
+                      >
+                        {" "}
+                        {category}
+                      </label>
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
             <div className="border-b-[1px] border-r-[1px] p-5">
               <h3 className="uppercase mb-2 font-bold">Brand</h3>
               <div className="flex flex-col gap-2">
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="tshirts"
-                    id="tshirts"
-                    className="cursor-pointer w-5 h-5"
-                  />
-                  <label htmlFor="tshirts" className="cursor-pointer">
-                    {" "}
-                    Roadster
-                  </label>
-                </div>
-
-                <div className="flex gap-2">
-                  <input
-                    type="checkbox"
-                    name="shirts"
-                    id="shirts"
-                    className="cursor-pointer w-5 h-5"
-                  />
-                  <label htmlFor="shirts">Puma</label>
-                </div>
-
-                <div className="flex gap-2">
-                  <input
-                    type="checkbox"
-                    name="jeans"
-                    id="jeans"
-                    className="cursor-pointer w-5 h-5"
-                  />
-                  <label htmlFor="jeans">Adidas</label>
-                </div>
+                {getUniquevalues(allproducts, "brand").map((brand, idx) => (
+                  <div className="flex gap-2 cursor-pointer" key={idx}>
+                    <input
+                      type="checkbox"
+                      name="brand"
+                      id={brand}
+                      value={brand}
+                      className="cursor-pointer w-5 h-5 checkbox"
+                      onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor={brand} className="cursor-pointer">
+                      {brand}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -123,209 +240,37 @@ function Products() {
           </div>
         </div>
         <div className="flex-[4] flex flex-wrap justify-between py-3 px-5">
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
+          {products?.map((product) => (
+            <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
+              <div className="relative">
+                <Image
+                  src={product.images[0]}
+                  width={0}
+                  height={0}
+                  sizes="50vw, (min-width: 768px) 33vw"
+                  className="w-full group-hover:hidden"
+                />
+                <Image
+                  src={product.images[1]}
+                  width={0}
+                  height={0}
+                  sizes="50vw, (min-width: 768px) 33vw"
+                  className="w-full hidden group-hover:block"
+                />
 
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
+                <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
+                  <span>{product.rating}</span>
+                  <AiFillStar className="text-green-600" />
+                </div>
+              </div>
+
+              <div className="px-2 pt-4">
+                <div className="font-bold">{product.brand}</div>
+                <div>{product.title}</div>
+                <div className="font-bold mt-1">Rs. {product.price}</div>
               </div>
             </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
-
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
-              </div>
-            </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
-
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
-              </div>
-            </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
-
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
-              </div>
-            </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
-
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
-              </div>
-            </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
-
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
-              </div>
-            </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
-            <div className="relative">
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full group-hover:hidden"
-              />
-              <Image
-                src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg"
-                width={0}
-                height={0}
-                sizes="50vw, (min-width: 768px) 33vw"
-                className="w-full hidden group-hover:block"
-              />
-
-              <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                <span>4.2</span>
-                <AiFillStar className="text-green-600" />
-              </div>
-            </div>
-
-            <div className="px-2 pt-4">
-              <div className="font-bold">Roadster</div>
-              <div>Men Cotton Pure Cotton T-shirt</div>
-              <div className="font-bold mt-1">Rs. 249</div>
-            </div>
-          </div>
+          ))}
 
           {/* dummy cards */}
           <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
