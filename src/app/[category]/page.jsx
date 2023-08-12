@@ -8,6 +8,7 @@ import { AiFillStar } from "react-icons/ai";
 function Products() {
   // const [price, setPrice] = useState(10000);
   const [products, setProducts] = useState([]);
+  const [selectedSortBy, setselectedSortBy] = useState("Recommended")
   const allproducts = [
     {
       brand: "Roadster",
@@ -160,14 +161,12 @@ function Products() {
     setProducts(filteredProducts);
   };
 
-  function sortProducts(sortCriteria){
+  function sortProducts(sortCriteria) {
     // here call API to get sorted products from backend
-    const sortedProducts= [...products];
-    sortedProducts.sort((a, b)=> {
-      if(sortCriteria==="priceLowToHigh")
-        return a.price-b.price;
-      else if(sortCriteria==="priceHighToLow")
-        return b.price-a.price;
+    const sortedProducts = [...products];
+    sortedProducts.sort((a, b) => {
+      if (sortCriteria === "priceLowToHigh") return a.price - b.price;
+      else if (sortCriteria === "priceHighToLow") return b.price - a.price;
     });
 
     setProducts(sortedProducts);
@@ -188,17 +187,25 @@ function Products() {
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">
         <span className="uppercase font-bold pl-5 pt-5">Filters</span>
         <div className="relative mr-3 group cursor-pointer z-30">
-          <div className="flex gap-10 items-center border-2 px-3 py-2">
-            <div>Sort by: Recommended</div>
+          <div className="flex gap-10 items-center justify-between border-2 px-3 py-2 w-72">
+            <div>Sort by: <span className="font-bold">{selectedSortBy}</span></div>
             <PiCaretDownLight />
           </div>
 
           <ul className="absolute bg-white w-full shadow-2xl hidden group-hover:block">
-            <li className="p-3 hover:bg-gray-100">Whats New</li>
-            <li className="p-3 hover:bg-gray-100">Recommended</li>
-            <li className="p-3 hover:bg-gray-100" onClick={()=> sortProducts("priceLowToHigh")}>Price: Low to High</li>
-            <li className="p-3 hover:bg-gray-100" onClick={()=> sortProducts("priceHighToLow")}>Price: High to Low</li>
-            <li className="p-3 hover:bg-gray-100">Better Discount</li>
+            {[
+              { id: "recommended", value: "Recommended" },
+              { id: "popularity", value: "Popularity" },
+              { id: "priceLowToHigh", value: "Price: Low to High" },
+              { id: "priceHighToLow", value: "Price: High to Low" },
+            ].map((sortCriteria) => (
+              <li
+                className="p-3 hover:bg-gray-100"
+                onClick={() => {sortProducts(sortCriteria.id); setselectedSortBy(sortCriteria.value)}}
+              >
+                {sortCriteria.value}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
