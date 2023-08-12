@@ -160,6 +160,19 @@ function Products() {
     setProducts(filteredProducts);
   };
 
+  function sortProducts(sortCriteria){
+    // here call API to get sorted products from backend
+    const sortedProducts= [...products];
+    sortedProducts.sort((a, b)=> {
+      if(sortCriteria==="priceLowToHigh")
+        return a.price-b.price;
+      else if(sortCriteria==="priceHighToLow")
+        return b.price-a.price;
+    });
+
+    setProducts(sortedProducts);
+  }
+
   useEffect(() => {
     // here call API to get all the products of selected category
     setProducts(allproducts);
@@ -183,8 +196,8 @@ function Products() {
           <ul className="absolute bg-white w-full shadow-2xl hidden group-hover:block">
             <li className="p-3 hover:bg-gray-100">Whats New</li>
             <li className="p-3 hover:bg-gray-100">Recommended</li>
-            <li className="p-3 hover:bg-gray-100">Highest Price</li>
-            <li className="p-3 hover:bg-gray-100">Lowest Price</li>
+            <li className="p-3 hover:bg-gray-100" onClick={()=> sortProducts("priceLowToHigh")}>Price: Low to High</li>
+            <li className="p-3 hover:bg-gray-100" onClick={()=> sortProducts("priceHighToLow")}>Price: High to Low</li>
             <li className="p-3 hover:bg-gray-100">Better Discount</li>
           </ul>
         </div>
