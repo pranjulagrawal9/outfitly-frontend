@@ -6,7 +6,7 @@ import { PiCaretDownLight } from "react-icons/pi";
 import { AiFillStar } from "react-icons/ai";
 
 function Products() {
-  const [price, setPrice] = useState(10000);
+  // const [price, setPrice] = useState(10000);
   const [products, setProducts] = useState([]);
   const allproducts = [
     {
@@ -138,7 +138,24 @@ function Products() {
 
     // here fetch products for selected categories using API
     const filteredProducts = allproducts.filter((product) => {
-      return Object.keys(map).every((key) => map[key].includes(product[key]));
+      return Object.keys(map).every((key) => {
+        switch (key) {
+          case "category":
+          case "brand":
+            return map[key].includes(product[key]);
+
+          case "price": {
+            const pricesArray = map[key].map((price) => price.split(" "));
+            for (const price of pricesArray) {
+              const min = Number(price[0]);
+              const max = Number(price[2]);
+              if (price.length === 1 && product.price >= min) return true;
+              else if (product.price >= min && product.price <= max)
+                return true;
+            }
+          }
+        }
+      });
     });
     setProducts(filteredProducts);
   };
@@ -226,7 +243,67 @@ function Products() {
 
             <div className="border-b-[1px] border-r-[1px] p-5">
               <h3 className="uppercase mb-2 font-bold">Price</h3>
-              <div className="flex gap-1">
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="price"
+                    value="0 to 500"
+                    id="0to500"
+                    className="cursor-pointer w-5 h-5 checkbox"
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor="0to500" className="cursor-pointer capitalize">
+                    Under ₹ 500
+                  </label>
+                </div>
+                <div className="flex gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="price"
+                    value="500 to 1000"
+                    id="500to1000"
+                    className="cursor-pointer w-5 h-5 checkbox"
+                    onChange={handleCheckboxChange}
+                  />
+                  <label
+                    htmlFor="500to1000"
+                    className="cursor-pointer capitalize"
+                  >
+                    ₹ 500 to ₹ 1000
+                  </label>
+                </div>
+                <div className="flex gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="price"
+                    value="1000 to 1500"
+                    id="1000to1500"
+                    className="cursor-pointer w-5 h-5 checkbox"
+                    onChange={handleCheckboxChange}
+                  />
+                  <label
+                    htmlFor="1000to1500"
+                    className="cursor-pointer capitalize"
+                  >
+                    ₹ 1000 to ₹ 1500
+                  </label>
+                </div>
+                <div className="flex gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="price"
+                    value="2000"
+                    id="2000+"
+                    className="cursor-pointer w-5 h-5 checkbox"
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor="2000+" className="cursor-pointer capitalize">
+                    More than ₹ 2000
+                  </label>
+                </div>
+              </div>
+              {/* <div className="flex gap-1">
                 <span>0</span>
                 <input
                   type="range"
@@ -235,7 +312,7 @@ function Products() {
                   onChange={(e) => setPrice(e.target.value)}
                 />
                 <span>{price}</span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -244,6 +321,7 @@ function Products() {
             <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
               <div className="relative">
                 <Image
+                  alt="testalt"
                   src={product.images[0]}
                   width={0}
                   height={0}
@@ -251,6 +329,7 @@ function Products() {
                   className="w-full group-hover:hidden"
                 />
                 <Image
+                  alt="testalt"
                   src={product.images[1]}
                   width={0}
                   height={0}
