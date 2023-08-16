@@ -202,6 +202,7 @@ function Products() {
               <li
                 className="p-3 hover:bg-gray-100"
                 onClick={() => {sortProducts(sortCriteria.id); setselectedSortBy(sortCriteria.value)}}
+                key={sortCriteria.id}
               >
                 {sortCriteria.value}
               </li>
