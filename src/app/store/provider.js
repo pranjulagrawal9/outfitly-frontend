@@ -1,8 +1,18 @@
-"use client"
+"use client";
 
-import { Provider } from "react-redux"
-import { store } from "./store"
+import { Provider } from "react-redux";
+import { store } from "./store";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-export function Providers({children}){
-    return <Provider store={store}>{children}</Provider>
+const client = new ApolloClient({
+    uri: 'http://localhost:1337/graphql',
+    cache: new InMemoryCache(),
+  });
+
+export function Providers({ children }) {
+  return (
+    <ApolloProvider client={client}>
+      <Provider store={store}>{children}</Provider>
+    </ApolloProvider>
+  );
 }
