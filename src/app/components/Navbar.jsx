@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
 import { BsBag } from "react-icons/bs";
 import logo from "../../../public/logo.png";
@@ -28,6 +28,7 @@ function Navbar() {
                 id
                 attributes {
                   name
+                  slug
                 }
               }
             }
@@ -76,7 +77,11 @@ function Navbar() {
           } lg:flex lg:flex-row lg:h-fit lg:p-0 lg:gap-10`}
         >
           {mainCategories?.map((mainCategory) => (
-            <MenuItem title={mainCategory.attributes.name} key={mainCategory.id} categories={mainCategory.attributes.categories.data} />
+            <MenuItem
+              title={mainCategory.attributes.name}
+              key={mainCategory.id}
+              categories={mainCategory.attributes.categories.data}
+            />
           ))}
         </div>
 

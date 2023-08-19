@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 
 function MenuItem({ categories, title }) {
   const [isMenuItemOpen, setIsMenuItemOpen] = useState(false);
+  const slug = title.toLowerCase();
 
   return (
     <div
@@ -21,12 +23,14 @@ function MenuItem({ categories, title }) {
           } lg:fixed lg:ml-0 lg:w-60 lg:group-hover:flex lg:shadow-[0_4px_16px_0_rgba(0,0,0,0.2)] bg-white lg:pt-0 lg:rounded-bl-md lg:rounded-br-md lg:text-base`}
         >
           {categories?.map((category) => (
-            <li
-              className="lg:hover:bg-gray-100 lg:px-5 lg:py-3"
+            <Link
               key={category.id}
+              href={`/${title.toLowerCase()}-${category.attributes.slug}`}
             >
-              {category.attributes.name}
-            </li>
+              <li className="lg:hover:bg-gray-100 lg:px-5 lg:py-3">
+                {category.attributes.name}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>
