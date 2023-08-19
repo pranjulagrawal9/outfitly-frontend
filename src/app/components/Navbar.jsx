@@ -8,6 +8,7 @@ import Image from "next/image";
 import MenuItem from "./MenuItem";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { gql, useQuery } from "@apollo/client";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,6 +16,29 @@ function Navbar() {
   const cartCount = cart
     .map((item) => item.qty)
     .reduce((total, current) => total + current, 0);
+  const GetMainCategories = gql`
+    {
+      maincategories {
+        data {
+          id
+          attributes {
+            name
+            categories {
+              data {
+                id
+                attributes {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const { data } = useQuery(GetMainCategories);
+  const mainCategories = data?.maincategories.data;
 
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
@@ -51,10 +75,9 @@ function Navbar() {
             isMenuOpen ? "!flex flex-col" : ""
           } lg:flex lg:flex-row lg:h-fit lg:p-0 lg:gap-10`}
         >
-          <MenuItem title="Men" />
-          <MenuItem title="Women" />
-          <MenuItem title="Kids" />
-          <MenuItem title="Home & Living" />
+          {mainCategories?.map((mainCategory) => (
+            <MenuItem title={mainCategory.attributes.name} key={mainCategory.id} categories={mainCategory.attributes.categories.data} />
+          ))}
         </div>
 
         <Link href="/cart">

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 
-function MenuItem({title}) {
+function MenuItem({ categories, title }) {
   const [isMenuItemOpen, setIsMenuItemOpen] = useState(false);
 
   return (
@@ -20,9 +20,14 @@ function MenuItem({title}) {
             isMenuItemOpen ? "max-lg:flex" : ""
           } lg:fixed lg:ml-0 lg:w-60 lg:group-hover:flex lg:shadow-[0_4px_16px_0_rgba(0,0,0,0.2)] bg-white lg:pt-0 lg:rounded-bl-md lg:rounded-br-md lg:text-base`}
         >
-          <li className="lg:hover:bg-gray-100 lg:px-5 lg:py-3">T-Shirts</li>
-          <li className="lg:hover:bg-gray-100 lg:px-5 lg:py-3">Shirts</li>
-          <li className="lg:hover:bg-gray-100 lg:px-5 lg:py-3">Jeans</li>
+          {categories?.map((category) => (
+            <li
+              className="lg:hover:bg-gray-100 lg:px-5 lg:py-3"
+              key={category.id}
+            >
+              {category.attributes.name}
+            </li>
+          ))}
         </ul>
       </div>
     </div>
