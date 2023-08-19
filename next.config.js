@@ -5,6 +5,9 @@ const nextConfig = {
           {
             hostname: 'assets.myntassets.com',
           },
+          {
+            hostname: '127.0.0.1',
+          },
         ],
       },
 }
