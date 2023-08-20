@@ -4,11 +4,53 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { PiCaretDownLight } from "react-icons/pi";
 import { AiFillStar } from "react-icons/ai";
+import { gql, useQuery } from "@apollo/client";
 
-function Products() {
+function Products({ params }) {
   // const [price, setPrice] = useState(10000);
-  const [products, setProducts] = useState([]);
-  const [selectedSortBy, setselectedSortBy] = useState("Recommended")
+  // console.log(params.category);
+  const [mainCategory, categorySlug] = params.category.split("-");
+  const GetProducts = gql`
+    query GetProducts($mainCategory: String!, $categorySlug: String!) {
+      products(
+        filters: {
+          and: [
+            { maincategories: { name: { eqi: $mainCategory } } }
+            { categories: { slug: { eq: $categorySlug } } }
+          ]
+        }
+      ) {
+        data {
+          id
+          attributes {
+            brand
+            title
+            rating
+            price
+            images {
+              data {
+                id
+                attributes {
+                  url
+                }
+              }
+            }
+          }
+        }
+        meta {
+          pagination {
+            total
+          }
+        }
+      }
+    }
+  `;
+
+  const { data } = useQuery(GetProducts, {
+    variables: { mainCategory, categorySlug },
+  });
+  const products = data?.products.data;
+  const [selectedSortBy, setselectedSortBy] = useState("Recommended");
   const allproducts = [
     {
       brand: "Roadster",
@@ -172,11 +214,6 @@ function Products() {
     setProducts(sortedProducts);
   }
 
-  useEffect(() => {
-    // here call API to get all the products of selected category
-    setProducts(allproducts);
-  }, []);
-
   function getUniquevalues(allproducts, element) {
     const elementArray = allproducts.map((product) => product[element]);
     return [...new Set(elementArray)];
@@ -188,7 +225,9 @@ function Products() {
         <span className="uppercase font-bold pl-5 pt-5">Filters</span>
         <div className="relative mr-3 group cursor-pointer z-30">
           <div className="flex gap-10 items-center justify-between border-2 px-3 py-2 w-72">
-            <div>Sort by: <span className="font-bold">{selectedSortBy}</span></div>
+            <div>
+              Sort by: <span className="font-bold">{selectedSortBy}</span>
+            </div>
             <PiCaretDownLight />
           </div>
 
@@ -201,7 +240,10 @@ function Products() {
             ].map((sortCriteria) => (
               <li
                 className="p-3 hover:bg-gray-100"
-                onClick={() => {sortProducts(sortCriteria.id); setselectedSortBy(sortCriteria.value)}}
+                onClick={() => {
+                  sortProducts(sortCriteria.id);
+                  setselectedSortBy(sortCriteria.value);
+                }}
                 key={sortCriteria.id}
               >
                 {sortCriteria.value}
@@ -338,12 +380,15 @@ function Products() {
           </div>
         </div>
         <div className="flex-[4] flex flex-wrap justify-between py-3 px-5">
-          {products?.map((product) => (
-            <div className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group">
+          {products?.map(({ id, attributes }) => (
+            <div
+              className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
+              key={id}
+            >
               <div className="relative">
                 <Image
                   alt="testalt"
-                  src={product.images[0]}
+                  src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
                   width={0}
                   height={0}
                   sizes="50vw, (min-width: 768px) 33vw"
@@ -351,7 +396,7 @@ function Products() {
                 />
                 <Image
                   alt="testalt"
-                  src={product.images[1]}
+                  src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
                   width={0}
                   height={0}
                   sizes="50vw, (min-width: 768px) 33vw"
@@ -359,15 +404,15 @@ function Products() {
                 />
 
                 <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                  <span>{product.rating}</span>
+                  <span>{attributes.rating}</span>
                   <AiFillStar className="text-green-600" />
                 </div>
               </div>
 
               <div className="px-2 pt-4">
-                <div className="font-bold">{product.brand}</div>
-                <div>{product.title}</div>
-                <div className="font-bold mt-1">Rs. {product.price}</div>
+                <div className="font-bold">{attributes.brand}</div>
+                <div>{attributes.title}</div>
+                <div className="font-bold mt-1">Rs. {attributes.price}</div>
               </div>
             </div>
           ))}
