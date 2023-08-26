@@ -9,17 +9,31 @@ import { gql, useQuery } from "@apollo/client";
 function Products({ params }) {
   // const [price, setPrice] = useState(10000);
   // console.log(params.category);
+  const [products, setProducts] = useState([]);
   const [mainCategory, categorySlug] = params.category.split("-");
+  const [filterBy, setFilterBy] = useState({
+    brands: [],
+    categories: [categorySlug],
+    priceRange: [],
+  });
+
+  const filters = {
+    and: [
+      { categories: { slug: { in: filterBy.categories } } },
+      { maincategories: { name: { eqi: mainCategory } } },
+      { brand: filterBy.brands.length !== 0 ? { in: filterBy.brands } : {} },
+      {
+        price:
+          filterBy.priceRange.length !== 0
+            ? { between: filterBy.priceRange }
+            : {},
+      },
+    ],
+  };
+
   const GetProducts = gql`
-    query GetProducts($mainCategory: String!, $categorySlug: String!) {
-      products(
-        filters: {
-          and: [
-            { maincategories: { name: { eqi: $mainCategory } } }
-            { categories: { slug: { eq: $categorySlug } } }
-          ]
-        }
-      ) {
+    query GetProducts($filters: ProductFiltersInput!) {
+      products(filters: $filters) {
         data {
           id
           attributes {
@@ -46,121 +60,54 @@ function Products({ params }) {
     }
   `;
 
-  const { data } = useQuery(GetProducts, {
-    variables: { mainCategory, categorySlug },
+  const GetAllCategories = gql`
+    query GetAllCategories($mainCategory: String!) {
+      categories(
+        filters: { maincategories: { name: { eqi: $mainCategory } } }
+      ) {
+        data {
+          id
+          attributes {
+            name
+            slug
+          }
+        }
+      }
+    }
+  `;
+
+  const GetAllBrands = gql`
+    query GetAllBrands($mainCategory: String!) {
+      products(filters: { maincategories: { name: { eqi: $mainCategory } } }) {
+        data {
+          attributes {
+            brand
+          }
+        }
+      }
+    }
+  `;
+
+  const { data, refetch } = useQuery(GetProducts, {
+    variables: { filters },
   });
-  const products = data?.products.data;
+
+  useEffect(() => {
+    setProducts(data?.products.data);
+  }, [data]);
+
+  const { data: allBrandsObj } = useQuery(GetAllBrands, {
+    variables: { mainCategory },
+  });
+  const allBrands = allBrandsObj?.products.data;
+  const uniqueBrands = [...new Set(allBrands)];
+
+  const { data: categoriesObj } = useQuery(GetAllCategories, {
+    variables: { mainCategory },
+  });
+  const allCategories = categoriesObj?.categories.data;
+
   const [selectedSortBy, setselectedSortBy] = useState("Recommended");
-  const allproducts = [
-    {
-      brand: "Roadster",
-      title: "Men Cotton Pure Cotton T-shirt",
-      price: 249,
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
-      ],
-      rating: 4.2,
-      category: "tshirts",
-      sortBy: "recommended",
-    },
-    {
-      brand: "Roadster",
-      title: "Men Cotton Pure Cotton T-shirt",
-      price: 249,
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
-      ],
-      rating: 4.2,
-      category: "tshirts",
-      sortBy: "recommended",
-    },
-    {
-      brand: "Roadster",
-      title: "Men Cotton Pure Cotton T-shirt",
-      price: 249,
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
-      ],
-      rating: 4.2,
-      category: "tshirts",
-      sortBy: "recommended",
-    },
-    {
-      brand: "Roadster",
-      title: "Men Cotton Pure Cotton T-shirt",
-      price: 249,
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
-      ],
-      rating: 4.2,
-      category: "tshirts",
-      sortBy: "recommended",
-    },
-    {
-      brand: "Roadster",
-      title: "Men Cotton Pure Cotton T-shirt",
-      price: 249,
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
-      ],
-      rating: 4.2,
-      category: "tshirts",
-      sortBy: "recommended",
-    },
-    {
-      brand: "Roadster",
-      title: "Men Cotton Pure Cotton T-shirt",
-      price: 249,
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/7f8bf98e-96b3-490c-9512-dad6a7279feb1573110418783-Roadster-Men-Tshirts-241573110416534-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/10307423/2019/11/7/181f9191-76a2-49e6-92da-e016238379281573110418580-Roadster-Men-Tshirts-241573110416534-5.jpg",
-      ],
-      rating: 4.2,
-      category: "tshirts",
-      sortBy: "recommended",
-    },
-    {
-      brand: "The Indian Garage Co",
-      title: "Men White Striped Casual Shirt",
-      price: 527,
-      images: [
-        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10673544/2019/9/24/6b9c7688-7ca2-4d11-9e5b-a3745ecd8f761569310358973-The-Indian-Garage-Co-Men-Shirts-8481569310357131-1.jpg",
-        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/10673544/2019/9/24/729859d8-cc66-4465-ba81-27028b9d7a461569310358945-The-Indian-Garage-Co-Men-Shirts-8481569310357131-2.jpg",
-      ],
-      rating: 4.1,
-      category: "shirts",
-      sortBy: "new",
-    },
-    {
-      brand: "Levis",
-      title: "Men 511 Slim Low Rise Jeans",
-      price: 3499,
-      images: [
-        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/20516480/2023/1/11/776df41f-ddc3-493c-826d-95eb1425c2bc1673419506083-Levis-Men-511-Slim-Fit-Low-Rise-Heavy-Fade-Stretchable-Jeans-2.jpg",
-        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/20516480/2023/1/11/d33205e8-56b2-45d2-aefc-0e1e7a1c391b1673419506094-Levis-Men-511-Slim-Fit-Low-Rise-Heavy-Fade-Stretchable-Jeans-1.jpg",
-      ],
-      rating: 4.8,
-      category: "jeans",
-      sortBy: "discount",
-    },
-    {
-      brand: "Urbano Fashion",
-      title: "Men 511 Slim Low Rise Jeans",
-      price: 3456,
-      images: [
-        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/13823708/2022/10/19/398d64b2-096b-4a41-9ee9-95c005fc4db01666156159187-Urbano-Fashion-Men-Black-Slim-Fit-Mid-Rise-Clean-Look-Stretc-1.jpg",
-        "https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/13823708/2022/10/19/fe7b92ac-c1f9-46e7-b7c7-8fba7da54da71666156159178-Urbano-Fashion-Men-Black-Slim-Fit-Mid-Rise-Clean-Look-Stretc-2.jpg",
-      ],
-      rating: 4.1,
-      category: "jeans",
-      sortBy: "discount",
-    },
-  ];
 
   const handleCheckboxChange = () => {
     const checkboxes = document.querySelectorAll(".checkbox");
@@ -173,35 +120,29 @@ function Products({ params }) {
       }
     });
 
-    // if no checkbox is checked then show all products
-    if (Object.keys(map).length === 0) {
-      setProducts(allproducts);
-      return;
-    }
+    console.log(map);
 
-    // here fetch products for selected categories using API
-    const filteredProducts = allproducts.filter((product) => {
-      return Object.keys(map).every((key) => {
-        switch (key) {
-          case "category":
-          case "brand":
-            return map[key].includes(product[key]);
-
-          case "price": {
-            const pricesArray = map[key].map((price) => price.split(" "));
-            for (const price of pricesArray) {
-              const min = Number(price[0]);
-              const max = Number(price[2]);
-              if (price.length === 1 && product.price >= min) return true;
-              else if (product.price >= min && product.price <= max)
-                return true;
-            }
-          }
-        }
-      });
+    let globalMin = Number.MAX_VALUE,
+      globalMax = -Number.MAX_VALUE;
+      
+    map?.price?.forEach((price) => {
+      const min = Number(price.split(" ")[0]);
+      const max = Number(price.split(" ")[2]);
+      globalMin = Math.min(globalMin, min);
+      globalMax = Math.max(globalMax, max);
     });
-    setProducts(filteredProducts);
+
+    setFilterBy({
+      brands: map?.brand || [],
+      categories: map?.category || [categorySlug],
+      priceRange: map?.price ? [globalMin, globalMax] : [0, 100000],
+    });
   };
+
+  useEffect(() => {
+    console.log(filterBy);
+    refetch();
+  }, [filterBy]);
 
   function sortProducts(sortCriteria) {
     // here call API to get sorted products from backend
@@ -212,11 +153,6 @@ function Products({ params }) {
     });
 
     setProducts(sortedProducts);
-  }
-
-  function getUniquevalues(allproducts, element) {
-    const elementArray = allproducts.map((product) => product[element]);
-    return [...new Set(elementArray)];
   }
 
   return (
@@ -259,45 +195,48 @@ function Products({ params }) {
             <div className="border-b-[1px] border-r-[1px] p-5">
               <h3 className="uppercase mb-2 font-bold">Categories</h3>
               <div className="flex flex-col gap-2">
-                {getUniquevalues(allproducts, "category").map(
-                  (category, idx) => (
-                    <div className="flex gap-2 cursor-pointer" key={idx}>
-                      <input
-                        type="checkbox"
-                        name="category"
-                        value={category}
-                        id={category}
-                        className="cursor-pointer w-5 h-5 checkbox"
-                        onChange={handleCheckboxChange}
-                      />
-                      <label
-                        htmlFor={category}
-                        className="cursor-pointer capitalize"
-                      >
-                        {" "}
-                        {category}
-                      </label>
-                    </div>
-                  )
-                )}
+                {allCategories?.map((category) => (
+                  <div className="flex gap-2 cursor-pointer" key={category.id}>
+                    <input
+                      type="checkbox"
+                      name="category"
+                      value={category.attributes.slug}
+                      id={category.id}
+                      className="cursor-pointer w-5 h-5 checkbox"
+                      onChange={handleCheckboxChange}
+                    />
+                    <label
+                      htmlFor={category.id}
+                      className="cursor-pointer capitalize"
+                    >
+                      {category.attributes.name}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
 
             <div className="border-b-[1px] border-r-[1px] p-5">
               <h3 className="uppercase mb-2 font-bold">Brand</h3>
               <div className="flex flex-col gap-2">
-                {getUniquevalues(allproducts, "brand").map((brand, idx) => (
-                  <div className="flex gap-2 cursor-pointer" key={idx}>
+                {uniqueBrands?.map((brand) => (
+                  <div
+                    className="flex gap-2 cursor-pointer"
+                    key={brand.attributes.brand}
+                  >
                     <input
                       type="checkbox"
                       name="brand"
-                      id={brand}
-                      value={brand}
+                      id={brand.attributes.brand}
+                      value={brand.attributes.brand}
                       className="cursor-pointer w-5 h-5 checkbox"
                       onChange={handleCheckboxChange}
                     />
-                    <label htmlFor={brand} className="cursor-pointer">
-                      {brand}
+                    <label
+                      htmlFor={brand.attributes.brand}
+                      className="cursor-pointer"
+                    >
+                      {brand.attributes.brand}
                     </label>
                   </div>
                 ))}
@@ -356,7 +295,7 @@ function Products({ params }) {
                   <input
                     type="checkbox"
                     name="price"
-                    value="2000"
+                    value="2000 to 100000"
                     id="2000+"
                     className="cursor-pointer w-5 h-5 checkbox"
                     onChange={handleCheckboxChange}
