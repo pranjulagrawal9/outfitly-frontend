@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { register } from "swiper/element/bundle";
 register();
 import { useQuery, gql } from "@apollo/client";
+import Link from "next/link";
 
 function ProductsSlider({ title }) {
   const swiperContainerRef = useRef(null);
@@ -22,10 +23,26 @@ function ProductsSlider({ title }) {
               data {
                 attributes {
                   url
+                  alternativeText
                 }
               }
             }
             title
+            maincategories {
+              data {
+                attributes {
+                  name
+                }
+              }
+            }
+            categories {
+              data {
+                attributes {
+                  slug
+                }
+              }
+            }
+            slug
           }
         }
       }
@@ -77,21 +94,27 @@ function ProductsSlider({ title }) {
         >
           {products?.map((product) => (
             <swiper-slide key={product.id}>
-              <Image
-                src={`http://127.0.0.1:1337${product.attributes.images.data[0].attributes.url}`}
-                width={0}
-                height={0}
-                alt={product.attributes.title}
-                sizes="100vw, (min-width: 640px) 50vw, (min-width: 768) 25vw, (min-width: 1024px) 20vw"
-                style={{
-                  objectFit: "contain",
-                  width: "100%",
-                  height: "80%",
-                }}
-              />
-              <h2 className="text-center text-lg font-medium mt-5 md:mt-0">
-                {product.attributes.title}
-              </h2>
+              <Link
+                href={`/${product.attributes.maincategories.data[0].attributes.name.toLowerCase()}-${
+                  product.attributes.categories.data[0].attributes.slug
+                }/${product.attributes.slug}-${product.id}`}
+              >
+                <Image
+                  src={`http://127.0.0.1:1337${product.attributes.images.data[0].attributes.url}`}
+                  width={0}
+                  height={0}
+                  alt={product.attributes.title}
+                  sizes="100vw, (min-width: 640px) 50vw, (min-width: 768) 25vw, (min-width: 1024px) 20vw"
+                  style={{
+                    objectFit: "contain",
+                    width: "100%",
+                    height: "80%",
+                  }}
+                />
+                <h2 className="text-center text-lg font-medium mt-5 md:mt-0">
+                  {product.attributes.title}
+                </h2>
+              </Link>
             </swiper-slide>
           ))}
         </swiper-container>

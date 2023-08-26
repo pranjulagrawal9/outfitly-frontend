@@ -4,7 +4,6 @@ import { AiOutlineDown } from "react-icons/ai";
 
 function MenuItem({ categories, title }) {
   const [isMenuItemOpen, setIsMenuItemOpen] = useState(false);
-  const slug = title.toLowerCase();
 
   return (
     <div

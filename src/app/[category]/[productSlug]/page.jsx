@@ -65,7 +65,7 @@ function Product({ params }) {
   : false;
 
   return (
-    <div className="flex flex-col md:flex-row md:mx-10 md:gap-7 md:mt-10">
+    <div className="flex flex-col min-h-[calc(100vh-64px)] md:flex-row md:mx-10 md:gap-7 md:mt-10">
       <div className="flex flex-col md:flex-row-reverse md:flex-1 md:gap-5">
         <div className="w-full h-[500px] md:h-auto md:w-[85%]">
           {productData && (

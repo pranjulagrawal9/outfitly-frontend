@@ -188,17 +188,6 @@ function Products({ params }) {
     refetch();
   }, [filterBy, sortCriteria]);
 
-  function sortProducts(sortCriteria) {
-    // here call API to get sorted products from backend
-    const sortedProducts = [...products];
-    sortedProducts.sort((a, b) => {
-      if (sortCriteria === "priceLowToHigh") return a.price - b.price;
-      else if (sortCriteria === "priceHighToLow") return b.price - a.price;
-    });
-
-    setProducts(sortedProducts);
-  }
-
   return (
     <>
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">

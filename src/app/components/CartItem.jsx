@@ -9,7 +9,6 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 function CartItem(item) {
-  console.log(item);
   const [openSizeModal, setOpenSizeModal] = useState(false);
   const [openQtyModal, setOpenQtyModal] = useState(false);
 
