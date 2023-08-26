@@ -8,6 +8,7 @@ import Link from "next/link";
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
+  console.log(cart);
 
   const { totalItems, totalMRP, totalprice } = cart.reduce(
     (totals, item) => {

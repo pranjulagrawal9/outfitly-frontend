@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { PiCaretDownLight } from "react-icons/pi";
 import { AiFillStar } from "react-icons/ai";
 import { gql, useQuery } from "@apollo/client";
+import Link from "next/link";
 
 function Products({ params }) {
   const [products, setProducts] = useState([]);
@@ -74,6 +75,7 @@ function Products({ params }) {
             title
             rating
             price
+            slug
             recommendedScore
             popularityScore
             images {
@@ -307,9 +309,10 @@ function Products({ params }) {
         </div>
         <div className="flex-[4] flex flex-wrap justify-between py-3 px-5">
           {products?.map(({ id, attributes }) => (
-            <div
-              className="w-[48%] md:w-[32%] lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
+            <Link
+              href={`/${params.category}/${attributes.slug}-${id}`}
               key={id}
+              className="w-[48%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
             >
               <div className="relative">
                 <Image
@@ -340,7 +343,7 @@ function Products({ params }) {
                 <div>{attributes.title}</div>
                 <div className="font-bold mt-1">Rs. {attributes.price}</div>
               </div>
-            </div>
+            </Link>
           ))}
 
           {/* dummy cards */}

@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 function CartItem(item) {
+  console.log(item);
   const [openSizeModal, setOpenSizeModal] = useState(false);
   const [openQtyModal, setOpenQtyModal] = useState(false);
 
@@ -68,7 +69,7 @@ function CartItem(item) {
                   <li className="text-center px-3 py-2 text-slate-500">
                     Select Size
                   </li>
-                  {["S", "M", "L", "XL", "2XL", "3XL"].map((size) => (
+                  {item?.availableSizes.map((size) => (
                     <li
                       className="text-center p-3 hover:bg-gray-200 cursor-pointer"
                       key={size}
@@ -120,7 +121,8 @@ function CartItem(item) {
         </div>
         <div>
           <Image
-            src={item.images[0]}
+            src={`http://127.0.0.1:1337${item?.images.data[0].attributes.url}`}
+            alt={item?.images.data[0].attributes.alternativeText}
             width={120}
             height={0}
             className="rounded-lg"
