@@ -59,9 +59,11 @@ function Navbar() {
             )}
           </div>
 
-          <div className="w-10 relative">
-            <Image src={logo} alt="logo" />
-          </div>
+          <Link href='/'>
+            <div className="w-10 relative">
+              <Image src={logo} alt="logo" />
+            </div>
+          </Link>
 
           <div className="lg:hidden relative">
             <BsBag size="24px" />
