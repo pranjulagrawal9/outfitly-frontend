@@ -7,8 +7,6 @@ import { AiFillStar } from "react-icons/ai";
 import { gql, useQuery } from "@apollo/client";
 
 function Products({ params }) {
-  // const [price, setPrice] = useState(10000);
-  // console.log(params.category);
   const [products, setProducts] = useState([]);
   const [mainCategory, categorySlug] = params.category.split("-");
   const [filterBy, setFilterBy] = useState({
@@ -16,6 +14,41 @@ function Products({ params }) {
     categories: [categorySlug],
     priceRange: [],
   });
+  const [sortCriteria, setSortCriteria] = useState("recommendedScore:desc");
+  const sortBys = [
+    {
+      id: "recommended",
+      value: "Recommended",
+      sortCriteria: "recommendedScore:desc",
+    },
+    {
+      id: "popularity",
+      value: "Popularity",
+      sortCriteria: "popularityScore:desc",
+    },
+    {
+      id: "rating",
+      value: "Rating",
+      sortCriteria: "rating:desc",
+    },
+    {
+      id: "priceLowToHigh",
+      value: "Price: Low to High",
+      sortCriteria: "price:asc",
+    },
+    {
+      id: "priceHighToLow",
+      value: "Price: High to Low",
+      sortCriteria: "price:desc",
+    },
+  ];
+
+  const prices = [
+    { id: "0to500", value: "0 to 500", label: "Under ₹ 500" },
+    { id: "500to1000", value: "500 to 1000", label: "₹ 500 to ₹ 1000" },
+    { id: "1000to1500", value: "1000 to 1500", label: "₹ 1000 to ₹ 1500" },
+    { id: "2000+", value: "2000 to 100000", label: "More than ₹ 2000" },
+  ];
 
   const filters = {
     and: [
@@ -32,8 +65,8 @@ function Products({ params }) {
   };
 
   const GetProducts = gql`
-    query GetProducts($filters: ProductFiltersInput!) {
-      products(filters: $filters) {
+    query GetProducts($filters: ProductFiltersInput!, $sortCriteria: [String]) {
+      products(filters: $filters, sort: $sortCriteria) {
         data {
           id
           attributes {
@@ -41,6 +74,8 @@ function Products({ params }) {
             title
             rating
             price
+            recommendedScore
+            popularityScore
             images {
               data {
                 id
@@ -89,7 +124,7 @@ function Products({ params }) {
   `;
 
   const { data, refetch } = useQuery(GetProducts, {
-    variables: { filters },
+    variables: { filters, sortCriteria },
   });
 
   useEffect(() => {
@@ -109,6 +144,13 @@ function Products({ params }) {
 
   const [selectedSortBy, setselectedSortBy] = useState("Recommended");
 
+  useEffect(() => {
+    if (allCategories) {
+      const initialCategory = document.getElementById(categorySlug);
+      initialCategory.checked = true;
+    }
+  }, [allCategories]);
+
   const handleCheckboxChange = () => {
     const checkboxes = document.querySelectorAll(".checkbox");
     const map = {};
@@ -124,7 +166,7 @@ function Products({ params }) {
 
     let globalMin = Number.MAX_VALUE,
       globalMax = -Number.MAX_VALUE;
-      
+
     map?.price?.forEach((price) => {
       const min = Number(price.split(" ")[0]);
       const max = Number(price.split(" ")[2]);
@@ -134,7 +176,7 @@ function Products({ params }) {
 
     setFilterBy({
       brands: map?.brand || [],
-      categories: map?.category || [categorySlug],
+      categories: map?.category,
       priceRange: map?.price ? [globalMin, globalMax] : [0, 100000],
     });
   };
@@ -142,7 +184,7 @@ function Products({ params }) {
   useEffect(() => {
     console.log(filterBy);
     refetch();
-  }, [filterBy]);
+  }, [filterBy, sortCriteria]);
 
   function sortProducts(sortCriteria) {
     // here call API to get sorted products from backend
@@ -168,21 +210,16 @@ function Products({ params }) {
           </div>
 
           <ul className="absolute bg-white w-full shadow-2xl hidden group-hover:block">
-            {[
-              { id: "recommended", value: "Recommended" },
-              { id: "popularity", value: "Popularity" },
-              { id: "priceLowToHigh", value: "Price: Low to High" },
-              { id: "priceHighToLow", value: "Price: High to Low" },
-            ].map((sortCriteria) => (
+            {sortBys.map((sortBy) => (
               <li
                 className="p-3 hover:bg-gray-100"
                 onClick={() => {
-                  sortProducts(sortCriteria.id);
-                  setselectedSortBy(sortCriteria.value);
+                  setSortCriteria(sortBy.sortCriteria);
+                  setselectedSortBy(sortBy.value);
                 }}
-                key={sortCriteria.id}
+                key={sortBy.id}
               >
-                {sortCriteria.value}
+                {sortBy.value}
               </li>
             ))}
           </ul>
@@ -201,12 +238,12 @@ function Products({ params }) {
                       type="checkbox"
                       name="category"
                       value={category.attributes.slug}
-                      id={category.id}
+                      id={category.attributes.slug}
                       className="cursor-pointer w-5 h-5 checkbox"
                       onChange={handleCheckboxChange}
                     />
                     <label
-                      htmlFor={category.id}
+                      htmlFor={category.attributes.slug}
                       className="cursor-pointer capitalize"
                     >
                       {category.attributes.name}
@@ -246,75 +283,25 @@ function Products({ params }) {
             <div className="border-b-[1px] border-r-[1px] p-5">
               <h3 className="uppercase mb-2 font-bold">Price</h3>
               <div className="flex flex-col gap-2">
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="price"
-                    value="0 to 500"
-                    id="0to500"
-                    className="cursor-pointer w-5 h-5 checkbox"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="0to500" className="cursor-pointer capitalize">
-                    Under ₹ 500
-                  </label>
-                </div>
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="price"
-                    value="500 to 1000"
-                    id="500to1000"
-                    className="cursor-pointer w-5 h-5 checkbox"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label
-                    htmlFor="500to1000"
-                    className="cursor-pointer capitalize"
-                  >
-                    ₹ 500 to ₹ 1000
-                  </label>
-                </div>
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="price"
-                    value="1000 to 1500"
-                    id="1000to1500"
-                    className="cursor-pointer w-5 h-5 checkbox"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label
-                    htmlFor="1000to1500"
-                    className="cursor-pointer capitalize"
-                  >
-                    ₹ 1000 to ₹ 1500
-                  </label>
-                </div>
-                <div className="flex gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="price"
-                    value="2000 to 100000"
-                    id="2000+"
-                    className="cursor-pointer w-5 h-5 checkbox"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="2000+" className="cursor-pointer capitalize">
-                    More than ₹ 2000
-                  </label>
-                </div>
+                {prices.map((price) => (
+                  <div className="flex gap-2 cursor-pointer" key={price.id}>
+                    <input
+                      type="checkbox"
+                      name="price"
+                      value={price.value}
+                      id={price.id}
+                      className="cursor-pointer w-5 h-5 checkbox"
+                      onChange={handleCheckboxChange}
+                    />
+                    <label
+                      htmlFor={price.id}
+                      className="cursor-pointer capitalize"
+                    >
+                      {price.label}
+                    </label>
+                  </div>
+                ))}
               </div>
-              {/* <div className="flex gap-1">
-                <span>0</span>
-                <input
-                  type="range"
-                  name="price"
-                  max={10000}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <span>{price}</span>
-              </div> */}
             </div>
           </div>
         </div>
