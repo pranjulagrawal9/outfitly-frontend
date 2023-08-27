@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 
-function MenuItem({ categories, title }) {
+function MenuItem({ categories, title, setIsMenuOpen }) {
   const [isMenuItemOpen, setIsMenuItemOpen] = useState(false);
 
   return (
@@ -25,6 +25,7 @@ function MenuItem({ categories, title }) {
             <Link
               key={category.id}
               href={`/${title.toLowerCase()}-${category.attributes.slug}`}
+              onClick={() => setIsMenuOpen(false)}
             >
               <li className="lg:hover:bg-gray-100 lg:px-5 lg:py-3">
                 {category.attributes.name}

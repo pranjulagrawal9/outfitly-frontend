@@ -83,6 +83,7 @@ function Products({ params }) {
                 id
                 attributes {
                   url
+                  alternativeText
                 }
               }
             }
@@ -189,7 +190,7 @@ function Products({ params }) {
   }, [filterBy, sortCriteria]);
 
   return (
-    <>
+    <div className="min-h-[calc(100vh-64px)]">
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">
         <span className="uppercase font-bold pl-5 pt-5">Filters</span>
         <div className="relative mr-3 group cursor-pointer z-30">
@@ -305,7 +306,7 @@ function Products({ params }) {
             >
               <div className="relative">
                 <Image
-                  alt="testalt"
+                  alt={attributes.images.data[0].attributes.alternativeText}
                   src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
                   width={0}
                   height={0}
@@ -313,7 +314,7 @@ function Products({ params }) {
                   className="w-full group-hover:hidden"
                 />
                 <Image
-                  alt="testalt"
+                  alt={attributes.images.data[1].attributes.alternativeText}
                   src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
                   width={0}
                   height={0}
@@ -340,7 +341,7 @@ function Products({ params }) {
           <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

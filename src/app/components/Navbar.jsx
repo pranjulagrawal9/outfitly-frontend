@@ -83,6 +83,7 @@ function Navbar() {
               title={mainCategory.attributes.name}
               key={mainCategory.id}
               categories={mainCategory.attributes.categories.data}
+              setIsMenuOpen={setIsMenuOpen}
             />
           ))}
         </div>
