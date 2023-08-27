@@ -82,7 +82,7 @@ function Product({ params }) {
         <div className="flex w-full gap-5 mt-5 px-3 md:flex-col md:w-[15%] md:mt-0 md:px-0">
           {productData?.images.data.map(({ attributes, id }, idx) => (
             <div
-              className={`flex-1 md:flex-none cursor-pointer ${
+              className={`flex-1 max-w-[20%] md:max-w-none md:flex-none cursor-pointer ${
                 currMainImage == idx ? "border-2 border-sky-400" : ""
               }`}
               key={id}
