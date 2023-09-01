@@ -1,9 +1,9 @@
 "use client";
 
 import { useSelector } from "react-redux";
-import CartItem from "../components/CartItem";
+import CartItem from "../../components/CartItem";
 import Image from "next/image";
-import nothingInBag from "../../../public/nothingInBag.png";
+import nothingInBag from "../../../../public/nothingInBag.png";
 import Link from "next/link";
 
 function Cart() {
