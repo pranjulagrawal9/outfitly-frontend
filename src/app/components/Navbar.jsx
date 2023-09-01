@@ -59,7 +59,7 @@ function Navbar() {
             )}
           </div>
 
-          <Link href='/'>
+          <Link href="/">
             <div className="w-10 relative">
               <Image src={logo} alt="logo" />
             </div>
