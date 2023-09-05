@@ -15,8 +15,12 @@ function page() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/auth/google/callback?access_token=${access_token}`
       );
-      const json = await response.json();
-      console.log(json);
+      const jsonData = await response.json();
+      console.log(jsonData);
+
+      localStorage.setItem("jwt", jsonData.jwt);
+      localStorage.setItem("user", JSON.stringify(jsonData.user));
+      console.log(JSON.parse(localStorage.getItem("user")));
       router.replace("/");
     }
     request();

@@ -11,10 +11,34 @@ import Link from "next/link";
 
 export function SignupForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
 
   async function onSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    const username= formData.email.split("@")[0];
+    const response = await fetch("http://localhost:1337/api/auth/local/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        username,
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+    const jsonData = await response.json();
+    console.log(jsonData);
+    localStorage.setItem("jwt", jsonData.jwt);
+    localStorage.setItem("user", JSON.stringify(jsonData.user));
+    console.log(JSON.parse(localStorage.getItem("user")));
 
     setTimeout(() => {
       setIsLoading(false);
@@ -34,6 +58,9 @@ export function SignupForm({ className, ...props }) {
               placeholder="Name"
               type="text"
               disabled={isLoading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, name: e.target.value }))
+              }
             />
             <Label className="sr-only" htmlFor="email">
               Email
@@ -43,6 +70,9 @@ export function SignupForm({ className, ...props }) {
               placeholder="Email"
               type="email"
               disabled={isLoading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              }
             />
 
             <Label className="sr-only" htmlFor="password">
@@ -53,14 +83,12 @@ export function SignupForm({ className, ...props }) {
               type="password"
               placeholder="Password"
               disabled={isLoading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, password: e.target.value }))
+              }
             />
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Continue
-          </Button>
+          <Button disabled={isLoading}>Continue</Button>
         </div>
       </form>
       <div className="relative">
@@ -75,7 +103,9 @@ export function SignupForm({ className, ...props }) {
       </div>
 
       <Button variant="outline" type="button" disabled={isLoading} asChild>
-        <Link href={`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/connect/google`}>
+        <Link
+          href={`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/connect/google`}
+        >
           <FcGoogle className="mr-2" size={18} />
           <span className="uppercase">Google</span>
         </Link>

@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 
 import { Label } from "@/app/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FcGoogle } from "react-icons/fc";
@@ -11,14 +11,34 @@ import Link from "next/link";
 
 export function LoginForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   async function onSubmit(event) {
     event.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    const response = await fetch("http://localhost:1337/api/auth/local", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identifier: formData.email,
+        password: formData.password,
+      }),
+    });
+    const jsonData= await response.json();
+    console.log(jsonData);
+    localStorage.setItem("jwt", jsonData.jwt);
+    localStorage.setItem("user", JSON.stringify(jsonData.user));
+    console.log(JSON.parse(localStorage.getItem("user")));
   }
 
   return (
@@ -33,10 +53,10 @@ export function LoginForm({ className, ...props }) {
               id="email"
               placeholder="Email"
               type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
               disabled={isLoading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              }
             />
             <Label className="sr-only" htmlFor="password">
               Password
@@ -46,12 +66,15 @@ export function LoginForm({ className, ...props }) {
               type="password"
               placeholder="Password"
               disabled={isLoading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, password: e.target.value }))
+              }
             />
           </div>
           <Button disabled={isLoading}>
-            {isLoading && (
+            {/* {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            )} */}
             Sign In with Email
           </Button>
         </div>
@@ -67,7 +90,9 @@ export function LoginForm({ className, ...props }) {
         </div>
       </div>
       <Button variant="outline" type="button" disabled={isLoading} asChild>
-        <Link href={`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/connect/google`}>
+        <Link
+          href={`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/connect/google`}
+        >
           <FcGoogle className="mr-2" size={18} />
           <span className="uppercase">Google</span>
         </Link>

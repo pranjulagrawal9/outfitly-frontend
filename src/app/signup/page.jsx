@@ -3,7 +3,7 @@ import { buttonVariants } from "../components/ui/button";
 import { cn } from "@/lib/utils";
 import { SignupForm } from "@/app/components/SignupForm";
 
-function Login() {
+function Signup() {
   return (
     <>
       <div className="container relative h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -79,4 +79,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
