@@ -5,10 +5,16 @@ import CartItem from "../../components/CartItem";
 import Image from "next/image";
 import nothingInBag from "../../../../public/nothingInBag.png";
 import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
   console.log(cart);
+  const jwt = localStorage.getItem("jwt");
 
   const { totalItems, totalMRP, totalprice } = cart.reduce(
     (totals, item) => {
@@ -21,6 +27,28 @@ function Cart() {
   );
 
   const discount = totalMRP - totalprice;
+
+  async function handleCheckout() {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL + "/api/orders",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          products: cart,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + jwt,
+        },
+      }
+    );
+    const jsonData = await response.json();
+    console.log(jsonData);
+    const stripe = await stripePromise;
+    await stripe.redirectToCheckout({
+      sessionId: jsonData.stripeSession.id,
+    });
+  }
 
   return cart.length > 0 ? (
     <div className="px-5 mt-5 max-w-7xl mx-auto">
@@ -68,7 +96,10 @@ function Cart() {
               <h2>Total</h2>
               <h3 className="text-lg font-bold">₹ {totalprice}</h3>
             </div>
-            <span className="flex-[2] uppercase text-center py-4 bg-[#42A2A2] text-white font-bold rounded-lg">
+            <span
+              className="flex-[2] cursor-pointer uppercase text-center py-4 bg-[#42A2A2] text-white font-bold rounded-lg"
+              onClick={handleCheckout}
+            >
               Proceed to checkout
             </span>
           </div>
@@ -78,7 +109,12 @@ function Cart() {
   ) : (
     <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
       <div className="flex flex-col gap-3 items-center">
-        <Image src={nothingInBag} width={150} height={0} alt="nothing in the bag" />
+        <Image
+          src={nothingInBag}
+          width={150}
+          height={0}
+          alt="nothing in the bag"
+        />
         <h2 className="text-lg">Nothing in the bag</h2>
         <Link href="/">
           <div className="text-xl border-2 border-[#51cccc] py-2 px-3 rounded-md text-[#51cccc] font-medium cursor-pointer">
