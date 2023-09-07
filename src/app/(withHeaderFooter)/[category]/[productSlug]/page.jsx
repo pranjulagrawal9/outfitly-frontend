@@ -60,7 +60,7 @@ function Product({ params }) {
   const { data } = useQuery(GetProductData, { variables: { id: productId } });
   const productData = data?.product.data.attributes;
   console.log(productData);
-  const itemInCart = cart.find((item) => item.id === productData?.id)
+  const itemInCart = cart.find((item) => item.id === productId)
   ? true
   : false;
 
