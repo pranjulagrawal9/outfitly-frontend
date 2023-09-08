@@ -17,10 +17,7 @@ function page() {
       );
       const jsonData = await response.json();
       console.log(jsonData);
-
       localStorage.setItem("jwt", jsonData.jwt);
-      localStorage.setItem("user", JSON.stringify(jsonData.user));
-      console.log(JSON.parse(localStorage.getItem("user")));
       router.replace("/");
     }
     request();

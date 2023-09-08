@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function SignupForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,32 +18,44 @@ export function SignupForm({ className, ...props }) {
     email: "",
     password: "",
   });
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   async function onSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
-    const username= formData.email.split("@")[0];
-    const response = await fetch("http://localhost:1337/api/auth/local/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        username,
-        email: formData.email,
-        password: formData.password,
-      }),
-    });
+    const username = formData.email.split("@")[0];
+    const response = await fetch(
+      "http://localhost:1337/api/auth/local/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          username,
+          email: formData.email,
+          password: formData.password,
+        }),
+      }
+    );
     const jsonData = await response.json();
     console.log(jsonData);
-    localStorage.setItem("jwt", jsonData.jwt);
-    localStorage.setItem("user", JSON.stringify(jsonData.user));
-    console.log(JSON.parse(localStorage.getItem("user")));
-
-    setTimeout(() => {
+    if (jsonData.error) {
+      console.log(jsonData.error.message);
       setIsLoading(false);
-    }, 3000);
+      return;
+    }
+    localStorage.setItem("jwt", jsonData.jwt);
+    
+    setIsLoading(false);
+    if (searchParams.get("ref")) router.replace(searchParams.get("ref"));
+    else router.replace("/");
+
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 3000);
   }
 
   return (

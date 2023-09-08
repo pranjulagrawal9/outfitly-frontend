@@ -1,15 +1,22 @@
+"use client";
+
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { LoginForm } from "../components/LoginForm";
 import { buttonVariants } from "../components/ui/button";
+import { useSearchParams } from "next/navigation";
 
 function Login() {
+  const searchParams = useSearchParams();
+
   return (
     <>
       <div className="container relative h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/signup"
+          href={`/signup${
+            searchParams.get("ref") ? `?ref=${searchParams.get("ref")}` : ""
+          }`}
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute right-4 top-4 md:right-8 md:top-8"

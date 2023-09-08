@@ -6,6 +6,7 @@ import Image from "next/image";
 import nothingInBag from "../../../../public/nothingInBag.png";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -14,7 +15,10 @@ const stripePromise = loadStripe(
 function Cart() {
   const cart = useSelector((state) => state.cart);
   console.log(cart);
-  const jwt = localStorage.getItem("jwt");
+  if (typeof window !== 'undefined'){
+    var jwt = localStorage.getItem("jwt");
+  }
+  const router= useRouter();
 
   const { totalItems, totalMRP, totalprice } = cart.reduce(
     (totals, item) => {
@@ -29,6 +33,10 @@ function Cart() {
   const discount = totalMRP - totalprice;
 
   async function handleCheckout() {
+    if(!jwt){
+      router.replace('/login?ref=/cart');
+      return;
+    }
     const response = await fetch(
       process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL + "/api/orders",
       {

@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function LoginForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +16,8 @@ export function LoginForm({ className, ...props }) {
     email: "",
     password: "",
   });
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     console.log(formData);
@@ -22,7 +25,7 @@ export function LoginForm({ className, ...props }) {
 
   async function onSubmit(event) {
     event.preventDefault();
-    // setIsLoading(true);
+    setIsLoading(true);
 
     const response = await fetch("http://localhost:1337/api/auth/local", {
       method: "POST",
@@ -34,11 +37,18 @@ export function LoginForm({ className, ...props }) {
         password: formData.password,
       }),
     });
-    const jsonData= await response.json();
+    const jsonData = await response.json();
     console.log(jsonData);
+    if (jsonData.error) {
+      console.log(jsonData.error.message);
+      setIsLoading(false);
+      return;
+    }
     localStorage.setItem("jwt", jsonData.jwt);
-    localStorage.setItem("user", JSON.stringify(jsonData.user));
-    console.log(JSON.parse(localStorage.getItem("user")));
+
+    setIsLoading(false);
+    if (searchParams.get("ref")) router.replace(searchParams.get("ref"));
+    else router.replace("/");
   }
 
   return (
