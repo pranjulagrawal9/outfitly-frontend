@@ -12,12 +12,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../validations/loginValidationSchema";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/features/user/userSlice";
 
 export function LoginForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch= useDispatch();
 
   async function handleLogin(values) {
     setIsLoading(true);
@@ -41,6 +44,7 @@ export function LoginForm({ className, ...props }) {
       return;
     }
     localStorage.setItem("jwt", jsonData.jwt);
+    dispatch(addUser(jsonData.user));
     if (searchParams.get("ref")) router.replace(searchParams.get("ref"));
     else router.replace("/");
   }

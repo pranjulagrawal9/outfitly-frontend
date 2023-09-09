@@ -12,12 +12,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signupValidationSchema } from "../validations/signupValidationSchema";
 import { useFormik } from "formik";
 import { ClipLoader } from "react-spinners";
+import { addUser } from "../store/features/user/userSlice";
+import { useDispatch } from "react-redux";
 
 export function SignupForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch= useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -56,6 +59,7 @@ export function SignupForm({ className, ...props }) {
       return;
     }
     localStorage.setItem("jwt", jsonData.jwt);
+    dispatch(addUser(jsonData.user));
     if (searchParams.get("ref")) router.replace(searchParams.get("ref"));
     else router.replace("/");
   }
