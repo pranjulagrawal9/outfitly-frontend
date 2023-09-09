@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-function page() {
+function Page() {
   const searchparams = useSearchParams();
   const access_token = searchparams.get("access_token");
   const router = useRouter();
@@ -21,9 +21,9 @@ function page() {
       router.replace("/");
     }
     request();
-  }, [searchparams]);
+  });
 
   return <div>Loading...</div>;
 }
 
-export default page;
+export default Page;

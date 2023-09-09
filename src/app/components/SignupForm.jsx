@@ -9,22 +9,29 @@ import { Input } from "./ui/input";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signupValidationSchema } from "../validations/signupValidationSchema";
+import { useFormik } from "formik";
+import { ClipLoader } from "react-spinners";
 
 export function SignupForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [formError, setFormError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  async function onSubmit(event) {
-    event.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: signupValidationSchema,
+    onSubmit: handleSignup,
+  });
+
+  async function handleSignup(values) {
     setIsLoading(true);
-    const username = formData.email.split("@")[0];
     const response = await fetch(
       "http://localhost:1337/api/auth/local/register",
       {
@@ -33,10 +40,10 @@ export function SignupForm({ className, ...props }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.name,
-          username,
-          email: formData.email,
-          password: formData.password,
+          name: values.name,
+          username: values.email,
+          email: values.email,
+          password: values.password,
         }),
       }
     );
@@ -45,22 +52,21 @@ export function SignupForm({ className, ...props }) {
     if (jsonData.error) {
       console.log(jsonData.error.message);
       setIsLoading(false);
+      setFormError(jsonData.error.message);
       return;
     }
     localStorage.setItem("jwt", jsonData.jwt);
-    
-    setIsLoading(false);
     if (searchParams.get("ref")) router.replace(searchParams.get("ref"));
     else router.replace("/");
+  }
 
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 3000);
+  function clearFormError() {
+    if (formError) setFormError(null);
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-4 mb-5">
             <Label className="sr-only" htmlFor="email">
@@ -71,10 +77,17 @@ export function SignupForm({ className, ...props }) {
               placeholder="Name"
               type="text"
               disabled={isLoading}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, name: e.target.value }))
-              }
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+              onFocus={clearFormError}
             />
+            {formik.touched.name && formik.errors.name && (
+              <div className="text-red-500 text-sm font-medium">
+                {formik.errors.name}
+              </div>
+            )}
+
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
@@ -83,10 +96,16 @@ export function SignupForm({ className, ...props }) {
               placeholder="Email"
               type="email"
               disabled={isLoading}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, email: e.target.value }))
-              }
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              onFocus={clearFormError}
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-sm font-medium">
+                {formik.errors.email}
+              </div>
+            )}
 
             <Label className="sr-only" htmlFor="password">
               Password
@@ -96,12 +115,33 @@ export function SignupForm({ className, ...props }) {
               type="password"
               placeholder="Password"
               disabled={isLoading}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, password: e.target.value }))
-              }
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              onFocus={clearFormError}
             />
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-red-500 text-sm font-medium">
+                {formik.errors.password}
+              </div>
+            )}
+
+            {formError && (
+              <div className="text-red-500 text-sm font-medium">
+                {formError}
+              </div>
+            )}
           </div>
-          <Button disabled={isLoading}>Continue</Button>
+          <Button disabled={isLoading} type="submit">
+            {isLoading && (
+              <ClipLoader
+                color="rgba(255, 255, 255, 1)"
+                size={22}
+                className="mr-3"
+              />
+            )}
+            Continue
+          </Button>
         </div>
       </form>
       <div className="relative">

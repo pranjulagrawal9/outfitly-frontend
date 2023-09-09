@@ -3,28 +3,23 @@
 import { cn } from "@/lib/utils";
 
 import { Label } from "@/app/components/ui/label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useFormik } from "formik";
+import { loginValidationSchema } from "../validations/loginValidationSchema";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export function LoginForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formError, setFormError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
-  async function onSubmit(event) {
-    event.preventDefault();
+  async function handleLogin(values) {
     setIsLoading(true);
 
     const response = await fetch("http://localhost:1337/api/auth/local", {
@@ -33,8 +28,8 @@ export function LoginForm({ className, ...props }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        identifier: formData.email,
-        password: formData.password,
+        identifier: values.email,
+        password: values.password,
       }),
     });
     const jsonData = await response.json();
@@ -42,18 +37,30 @@ export function LoginForm({ className, ...props }) {
     if (jsonData.error) {
       console.log(jsonData.error.message);
       setIsLoading(false);
+      setFormError(jsonData.error.message);
       return;
     }
     localStorage.setItem("jwt", jsonData.jwt);
-
-    setIsLoading(false);
     if (searchParams.get("ref")) router.replace(searchParams.get("ref"));
     else router.replace("/");
   }
 
+  function clearFormError() {
+    if (formError) setFormError(null);
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginValidationSchema,
+    onSubmit: handleLogin,
+  });
+
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-4 mb-5">
             <Label className="sr-only" htmlFor="email">
@@ -64,10 +71,17 @@ export function LoginForm({ className, ...props }) {
               placeholder="Email"
               type="email"
               disabled={isLoading}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, email: e.target.value }))
-              }
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              onFocus={clearFormError}
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-sm font-medium">
+                {formik.errors.email}
+              </div>
+            )}
+
             <Label className="sr-only" htmlFor="password">
               Password
             </Label>
@@ -76,15 +90,27 @@ export function LoginForm({ className, ...props }) {
               type="password"
               placeholder="Password"
               disabled={isLoading}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, password: e.target.value }))
-              }
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              onFocus={clearFormError}
             />
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-red-500 text-sm font-medium">
+                {formik.errors.password}
+              </div>
+            )}
+
+            {formError && (
+              <div className="text-red-500 text-sm font-medium">
+                {formError}
+              </div>
+            )}
           </div>
-          <Button disabled={isLoading}>
-            {/* {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )} */}
+          <Button disabled={isLoading} type="submit">
+            {isLoading && (
+              <ClipLoader color="rgba(255, 255, 255, 1)" size={22} className="mr-3" />
+            )}
             Sign In with Email
           </Button>
         </div>
