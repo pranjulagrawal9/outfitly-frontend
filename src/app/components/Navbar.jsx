@@ -7,12 +7,17 @@ import logo from "../../../public/logo.png";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { gql, useQuery } from "@apollo/client";
+import ProfileDropdown from "./ProfileDropdown";
+import { Heart } from "lucide-react";
+import { removeUser } from "../store/features/user/userSlice";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const cartCount = cart
     .map((item) => item.qty)
     .reduce((total, current) => total + current, 0);
@@ -41,9 +46,15 @@ function Navbar() {
   const { data } = useQuery(GetMainCategories);
   const mainCategories = data?.maincategories.data;
 
+  function handleLogout() {
+    localStorage.removeItem("jwt");
+    dispatch(removeUser());
+    setIsMenuOpen(false);
+  }
+
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
-      <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:overflow-visible lg:h-16 lg:items-center lg:justify-between">
+      <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:overflow-visible lg:h-16 lg:items-center lg:justify-between w-screen">
         <div className="flex justify-between p-3 h-16 shadow-md lg:shadow-none lg:h-full lg:ml-10 items-center">
           <div
             className="cursor-pointer lg:hidden"
@@ -78,6 +89,19 @@ function Navbar() {
             isMenuOpen ? "!flex flex-col" : ""
           } lg:flex lg:flex-row lg:h-fit lg:p-0 lg:gap-10`}
         >
+          {!user && (
+            <div className="border-b-2 lg:hidden">
+              <h2 className="text-lg font-semibold mb-3">Welcome Guest</h2>
+              <Link href="/login">
+                <p className="mb-3">Login / Sign Up</p>
+              </Link>
+            </div>
+          )}
+          {user && (
+            <h1 className="text-lg font-bold border-b-2 pb-4 lg:hidden">
+              Hello, {user.name.split(" ")[0]}
+            </h1>
+          )}
           {mainCategories?.map((mainCategory) => (
             <MenuItem
               title={mainCategory.attributes.name}
@@ -86,18 +110,40 @@ function Navbar() {
               setIsMenuOpen={setIsMenuOpen}
             />
           ))}
+
+          {user && (
+            <div className="mt-5 flex flex-col gap-5 lg:hidden">
+              <h2>My Account</h2>
+              <h2>My Orders</h2>
+              <h2>My Wishlist</h2>
+              <h2 onClick={handleLogout}>Logout</h2>
+            </div>
+          )}
         </div>
 
-        <Link href="/cart">
-          <div className="max-lg:hidden mr-10 relative">
-            <BsBag size="24px" />
-            {cartCount > 0 && (
-              <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
-                {cartCount}
-              </div>
-            )}
-          </div>
-        </Link>
+        <div className="flex gap-10 items-center">
+          {user ? (
+            <div className="hidden lg:block">
+              <ProfileDropdown />
+            </div>
+          ) : (
+            <Link href="/login">
+              <span className="hidden lg:block">Login</span>
+            </Link>
+          )}
+
+          <Heart className="cursor-pointer hidden lg:block" />
+          <Link href="/cart">
+            <div className="max-lg:hidden mr-10 relative">
+              <BsBag size="24px" />
+              {cartCount > 0 && (
+                <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
+                  {cartCount}
+                </div>
+              )}
+            </div>
+          </Link>
+        </div>
       </div>
     </nav>
   );
