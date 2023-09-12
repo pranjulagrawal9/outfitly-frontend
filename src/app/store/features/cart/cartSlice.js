@@ -23,10 +23,13 @@ export const cartSlice = createSlice({
       const item = state.find((item) => item.id === action.payload.id);
       item.selectedSize = action.payload.size;
     },
+    clearCart: () => {
+      return [];
+    },
   },
 });
 
-export const { addToCart, removeItem, changeQuantity, changeSize } =
+export const { addToCart, removeItem, changeQuantity, changeSize, clearCart } =
   cartSlice.actions;
 
 export default cartSlice.reducer;
