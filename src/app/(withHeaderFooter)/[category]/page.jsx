@@ -6,6 +6,8 @@ import { PiCaretDownLight } from "react-icons/pi";
 import { AiFillStar } from "react-icons/ai";
 import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import { Button } from "@/app/components/ui/button";
 
 function Products({ params }) {
   const [products, setProducts] = useState([]);
@@ -14,6 +16,12 @@ function Products({ params }) {
     brands: [],
     categories: [categorySlug],
     priceRange: [],
+  });
+  const [page, setPage] = useState(1);
+  const [metaData, setMetaData] = useState({
+    totalProducts: 0,
+    currPage: 1,
+    totalPages: 1,
   });
   const [sortCriteria, setSortCriteria] = useState("recommendedScore:desc");
   const sortBys = [
@@ -66,8 +74,16 @@ function Products({ params }) {
   };
 
   const GetProducts = gql`
-    query GetProducts($filters: ProductFiltersInput!, $sortCriteria: [String]) {
-      products(filters: $filters, sort: $sortCriteria) {
+    query GetProducts(
+      $filters: ProductFiltersInput!
+      $sortCriteria: [String]
+      $page: Int!
+    ) {
+      products(
+        filters: $filters
+        sort: $sortCriteria
+        pagination: { page: $page, pageSize: 10 }
+      ) {
         data {
           id
           attributes {
@@ -92,6 +108,9 @@ function Products({ params }) {
         meta {
           pagination {
             total
+            page
+            pageSize
+            pageCount
           }
         }
       }
@@ -127,18 +146,26 @@ function Products({ params }) {
   `;
 
   const { data, refetch } = useQuery(GetProducts, {
-    variables: { filters, sortCriteria },
+    variables: { filters, sortCriteria, page },
   });
 
   useEffect(() => {
     setProducts(data?.products.data);
+    setMetaData({
+      totalProducts: data?.products.meta.pagination.total,
+      currPage: data?.products.meta.pagination.page,
+      totalPages: data?.products.meta.pagination.pageCount,
+    });
   }, [data]);
 
   const { data: allBrandsObj } = useQuery(GetAllBrands, {
     variables: { mainCategory },
   });
   const allBrands = allBrandsObj?.products.data;
-  const uniqueBrands = [...new Set(allBrands)];
+  const uniqueBrands = [
+    ...new Set(allBrands?.map((brand) => brand.attributes.brand)),
+  ];
+  console.log(uniqueBrands);
 
   const { data: categoriesObj } = useQuery(GetAllCategories, {
     variables: { mainCategory },
@@ -187,7 +214,7 @@ function Products({ params }) {
   useEffect(() => {
     console.log(filterBy);
     refetch();
-  }, [filterBy, sortCriteria]);
+  }, [filters, sortCriteria, page]);
 
   return (
     <div className="min-h-[calc(100vh-64px)]">
@@ -249,23 +276,17 @@ function Products({ params }) {
               <h3 className="uppercase mb-2 font-bold">Brand</h3>
               <div className="flex flex-col gap-2">
                 {uniqueBrands?.map((brand) => (
-                  <div
-                    className="flex gap-2 cursor-pointer"
-                    key={brand.attributes.brand}
-                  >
+                  <div className="flex gap-2 cursor-pointer" key={brand}>
                     <input
                       type="checkbox"
                       name="brand"
-                      id={brand.attributes.brand}
-                      value={brand.attributes.brand}
+                      id={brand}
+                      value={brand}
                       className="cursor-pointer w-5 h-5 checkbox"
                       onChange={handleCheckboxChange}
                     />
-                    <label
-                      htmlFor={brand.attributes.brand}
-                      className="cursor-pointer"
-                    >
-                      {brand.attributes.brand}
+                    <label htmlFor={brand} className="cursor-pointer">
+                      {brand}
                     </label>
                   </div>
                 ))}
@@ -297,48 +318,78 @@ function Products({ params }) {
             </div>
           </div>
         </div>
-        <div className="flex-[4] flex flex-wrap justify-between py-3 px-5">
-          {products?.map(({ id, attributes }) => (
-            <Link
-              href={`/${params.category}/${attributes.slug}-${id}`}
-              key={id}
-              className="w-[48%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
-            >
-              <div className="relative">
-                <Image
-                  alt={attributes.images.data[0].attributes.alternativeText}
-                  src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
-                  width={0}
-                  height={0}
-                  sizes="50vw, (min-width: 768px) 33vw"
-                  className="w-full group-hover:hidden"
-                />
-                <Image
-                  alt={attributes.images.data[1].attributes.alternativeText}
-                  src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
-                  width={0}
-                  height={0}
-                  sizes="50vw, (min-width: 768px) 33vw"
-                  className="w-full hidden group-hover:block"
-                />
+        <div className="flex-[4] py-3 px-5">
+          <div className="flex flex-wrap justify-between">
+            {products?.map(({ id, attributes }) => (
+              <Link
+                href={`/${params.category}/${attributes.slug}-${id}`}
+                key={id}
+                className="w-[48%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
+              >
+                <div className="relative">
+                  <Image
+                    alt={attributes.images.data[0].attributes.alternativeText}
+                    src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
+                    width={0}
+                    height={0}
+                    sizes="50vw, (min-width: 768px) 33vw"
+                    className="w-full group-hover:hidden"
+                  />
+                  <Image
+                    alt={attributes.images.data[1].attributes.alternativeText}
+                    src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
+                    width={0}
+                    height={0}
+                    sizes="50vw, (min-width: 768px) 33vw"
+                    className="w-full hidden group-hover:block"
+                  />
 
-                <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                  <span>{attributes.rating}</span>
-                  <AiFillStar className="text-green-600" />
+                  <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
+                    <span>{attributes.rating}</span>
+                    <AiFillStar className="text-green-600" />
+                  </div>
                 </div>
-              </div>
 
-              <div className="px-2 pt-4">
-                <div className="font-bold">{attributes.brand}</div>
-                <div>{attributes.title}</div>
-                <div className="font-bold mt-1">Rs. {attributes.price}</div>
-              </div>
-            </Link>
-          ))}
+                <div className="px-2 pt-4">
+                  <div className="font-bold">{attributes.brand}</div>
+                  <div>{attributes.title}</div>
+                  <div className="font-bold mt-1">Rs. {attributes.price}</div>
+                </div>
+              </Link>
+            ))}
 
-          {/* dummy cards */}
-          <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
-          <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
+            {/* dummy cards */}
+            <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
+            <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
+          </div>
+          <div className="flex justify-center">
+            <div className="flex gap-3 items-center">
+              <Button
+                variant="outline"
+                disabled={page === 1}
+                onClick={() => {
+                  setPage(page - 1);
+                  scrollTo(0, 0);
+                }}
+              >
+                <ArrowLeftIcon className="cursor-pointer" />
+              </Button>
+
+              <span>
+                {metaData.currPage} of {metaData.totalPages}
+              </span>
+              <Button
+                variant="outline"
+                disabled={page === metaData.totalPages}
+                onClick={() => {
+                  setPage(page + 1);
+                  scrollTo(0, 0);
+                }}
+              >
+                <ArrowRightIcon className="cursor-pointer" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
