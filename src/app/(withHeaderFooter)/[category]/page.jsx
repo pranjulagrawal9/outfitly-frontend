@@ -220,7 +220,7 @@ function Products({ params }) {
     <div className="min-h-[calc(100vh-64px)]">
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">
         <span className="uppercase font-bold pl-5 pt-5">Filters</span>
-        <div className="relative mr-3 group cursor-pointer z-30">
+        <div className="relative mr-3 group cursor-pointer z-10">
           <div className="flex gap-10 items-center justify-between border-2 px-3 py-2 w-72">
             <div>
               Sort by: <span className="font-bold">{selectedSortBy}</span>
