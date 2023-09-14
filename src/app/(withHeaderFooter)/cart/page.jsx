@@ -7,18 +7,21 @@ import nothingInBag from "../../../../public/nothingInBag.png";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 function Cart() {
+  const [isClient, setIsClient] = useState(false);
+  console.log("isClient ", isClient);
   const cart = useSelector((state) => state.cart);
   console.log(cart);
-  if (typeof window !== 'undefined'){
+  if (typeof window !== "undefined") {
     var jwt = localStorage.getItem("jwt");
   }
-  const router= useRouter();
+  const router = useRouter();
 
   const { totalItems, totalMRP, totalprice } = cart.reduce(
     (totals, item) => {
@@ -31,10 +34,13 @@ function Cart() {
   );
 
   const discount = totalMRP - totalprice;
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   async function handleCheckout() {
-    if(!jwt){
-      router.replace('/login?ref=/cart');
+    if (!jwt) {
+      router.replace("/login?ref=/cart");
       return;
     }
     const response = await fetch(
@@ -57,6 +63,8 @@ function Cart() {
       sessionId: jsonData.stripeSession.id,
     });
   }
+
+  if (!isClient) return <div className="min-h-[calc(100vh-64px)]"></div>;
 
   return cart.length > 0 ? (
     <div className="px-5 mt-5 max-w-7xl mx-auto">

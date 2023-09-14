@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
 import { BsBag } from "react-icons/bs";
 import logo from "../../../public/logo.png";
@@ -15,12 +15,11 @@ import { removeUser } from "../store/features/user/userSlice";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const cartCount = cart
-    .map((item) => item.qty)
-    .reduce((total, current) => total + current, 0);
+  const [cartCount, setCartCount] = useState(0);
   const GetMainCategories = gql`
     {
       maincategories {
@@ -51,6 +50,17 @@ function Navbar() {
     dispatch(removeUser());
     setIsMenuOpen(false);
   }
+
+  useEffect(() => {
+    const cartCount = cart
+      .map((item) => item.qty)
+      .reduce((total, current) => total + current, 0);
+    setCartCount(cartCount);
+  }, [cart]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
@@ -89,7 +99,7 @@ function Navbar() {
             isMenuOpen ? "!flex flex-col" : ""
           } lg:flex lg:flex-row lg:h-fit lg:p-0 lg:gap-10`}
         >
-          {!user && (
+          {isClient && !user && (
             <div className="border-b-2 lg:hidden">
               <h2 className="text-lg font-semibold mb-3">Welcome Guest</h2>
               <Link href="/login">
@@ -97,7 +107,7 @@ function Navbar() {
               </Link>
             </div>
           )}
-          {user && (
+          {isClient && user && (
             <h1 className="text-lg font-bold border-b-2 pb-4 lg:hidden">
               Hello, {user.name.split(" ")[0]}
             </h1>
@@ -111,7 +121,7 @@ function Navbar() {
             />
           ))}
 
-          {user && (
+          {isClient && user && (
             <div className="mt-5 flex flex-col gap-5 lg:hidden">
               <h2>My Account</h2>
               <h2>My Orders</h2>
@@ -122,7 +132,7 @@ function Navbar() {
         </div>
 
         <div className="flex gap-10 items-center">
-          {user ? (
+          {isClient && user ? (
             <div className="hidden lg:block">
               <ProfileDropdown />
             </div>
