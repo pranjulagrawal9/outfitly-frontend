@@ -62,7 +62,12 @@ function Products({ params }) {
 
   const filters = {
     and: [
-      { categories: { slug: { in: filterBy.categories } } },
+      {
+        categories: {
+          slug:
+            filterBy.categories.length !== 0 ? { in: filterBy.categories } : {},
+        },
+      },
       { maincategories: { name: { eqi: mainCategory } } },
       { brand: filterBy.brands.length !== 0 ? { in: filterBy.brands } : {} },
       {
@@ -182,6 +187,18 @@ function Products({ params }) {
     }
   }, [allCategories]);
 
+  function handleClearAll() {
+    setFilterBy({
+      brands: [],
+      categories: [],
+      priceRange: [0, 100000],
+    });
+    const checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) checkbox.checked = false;
+    });
+  }
+
   const handleCheckboxChange = () => {
     const checkboxes = document.querySelectorAll(".checkbox");
     const map = {};
@@ -192,8 +209,6 @@ function Products({ params }) {
         else map[checkbox.name] = [checkbox.value];
       }
     });
-
-    console.log(map);
 
     let globalMin = Number.MAX_VALUE,
       globalMax = -Number.MAX_VALUE;
@@ -207,7 +222,7 @@ function Products({ params }) {
 
     setFilterBy({
       brands: map?.brand || [],
-      categories: map?.category,
+      categories: map?.category || [],
       priceRange: map?.price ? [globalMin, globalMax] : [0, 100000],
     });
   };
@@ -220,7 +235,15 @@ function Products({ params }) {
   return (
     <div className="min-h-[calc(100vh-64px)]">
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">
-        <span className="uppercase font-bold pl-5 pt-5">Filters</span>
+        <div className="flex gap-5 items-center pl-5 pt-5">
+          <span className="uppercase font-bold">Filters</span>
+          <span
+            className="text-blue-500 font-medium cursor-pointer"
+            onClick={handleClearAll}
+          >
+            Clear All
+          </span>
+        </div>
         <div className="relative mr-3 group cursor-pointer z-10">
           <div className="flex gap-10 items-center justify-between border-2 px-3 py-2 w-72">
             <div>
