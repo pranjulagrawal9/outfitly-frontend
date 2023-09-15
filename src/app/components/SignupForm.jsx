@@ -6,21 +6,20 @@ import { Label } from "@/app/components/ui/label";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { FcGoogle } from "react-icons/fc";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signupValidationSchema } from "../validations/signupValidationSchema";
 import { useFormik } from "formik";
 import { ClipLoader } from "react-spinners";
 import { addUser } from "../store/features/user/userSlice";
 import { useDispatch } from "react-redux";
+import GoogleButton from "./GoogleButton";
 
 export function SignupForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -159,14 +158,7 @@ export function SignupForm({ className, ...props }) {
         </div>
       </div>
 
-      <Button variant="outline" type="button" disabled={isLoading} asChild>
-        <Link
-          href={`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/connect/google`}
-        >
-          <FcGoogle className="mr-2" size={18} />
-          <span className="uppercase">Google</span>
-        </Link>
-      </Button>
+      <GoogleButton />
     </div>
   );
 }

@@ -6,21 +6,20 @@ import { Label } from "@/app/components/ui/label";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { FcGoogle } from "react-icons/fc";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../validations/loginValidationSchema";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useDispatch } from "react-redux";
 import { addUser } from "../store/features/user/userSlice";
+import GoogleButton from "./GoogleButton";
 
 export function LoginForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
 
   async function handleLogin(values) {
     setIsLoading(true);
@@ -113,7 +112,11 @@ export function LoginForm({ className, ...props }) {
           </div>
           <Button disabled={isLoading} type="submit">
             {isLoading && (
-              <ClipLoader color="rgba(255, 255, 255, 1)" size={22} className="mr-3" />
+              <ClipLoader
+                color="rgba(255, 255, 255, 1)"
+                size={22}
+                className="mr-3"
+              />
             )}
             Sign In with Email
           </Button>
@@ -129,14 +132,7 @@ export function LoginForm({ className, ...props }) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading} asChild>
-        <Link
-          href={`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/connect/google`}
-        >
-          <FcGoogle className="mr-2" size={18} />
-          <span className="uppercase">Google</span>
-        </Link>
-      </Button>
+      <GoogleButton />
     </div>
   );
 }
