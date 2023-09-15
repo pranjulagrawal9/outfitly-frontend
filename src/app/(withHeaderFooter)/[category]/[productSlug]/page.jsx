@@ -9,6 +9,7 @@ import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { PiShoppingBagLight } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { Skeleton } from "@/app/components/ui/skeleton";
 import "react-toastify/dist/ReactToastify.min.css";
 
 function Product({ params }) {
@@ -60,9 +61,43 @@ function Product({ params }) {
   const { data } = useQuery(GetProductData, { variables: { id: productId } });
   const productData = data?.product.data.attributes;
   console.log(productData);
-  const itemInCart = cart.find((item) => item.id === productId)
-  ? true
-  : false;
+  const itemInCart = cart.find((item) => item.id === productId) ? true : false;
+
+  if (!productData)
+    return (
+      <div className="flex flex-col lg:flex-row mx-5 lg:mx-20 min-h-[calc(100vh-64px)] mt-5 gap-4">
+        <div className="flex w-full lg:w-1/2 gap-3">
+          <div className="flex w-1/5 flex-col gap-3">
+            <Skeleton className="w-full h-12 lg:h-1/5" />
+            <Skeleton className="w-full h-12 lg:h-1/5" />
+            <Skeleton className="w-full h-12 lg:h-1/5" />
+            <Skeleton className="w-full h-12 lg:h-1/5" />
+            <Skeleton className="w-full h-12 lg:h-1/5" />
+          </div>
+          <Skeleton className="w-4/5" />
+        </div>
+        <div className="lg:w-1/2 flex flex-col gap-5">
+          <Skeleton className="w-1/4 h-5" />
+          <Skeleton className="w-3/5 h-5" />
+          <Skeleton className="w-1/12 h-5" />
+          <Skeleton className="w-1/12 h-5" />
+          <Skeleton className="w-3/5 h-5" />
+          <div className="flex gap-3">
+            <Skeleton className="w-12 h-12" />
+            <Skeleton className="w-12 h-12" />
+            <Skeleton className="w-12 h-12" />
+            <Skeleton className="w-12 h-12" />
+            <Skeleton className="w-12 h-12" />
+          </div>
+          <div className="flex gap-5">
+            <Skeleton className="w-1/4 h-10" />
+            <Skeleton className="w-1/4 h-10" />
+          </div>
+          <Skeleton className="w-2/5 h-5" />
+          <Skeleton className="w-2/5 h-20" />
+        </div>
+      </div>
+    );
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-64px)] md:flex-row md:mx-10 md:gap-7 md:mt-10">
@@ -71,7 +106,10 @@ function Product({ params }) {
           {productData && (
             <Image
               src={`http://127.0.0.1:1337${productData?.images.data[currMainImage].attributes.url}`}
-              alt={productData?.images.data[currMainImage].attributes.alternativeText}
+              alt={
+                productData?.images.data[currMainImage].attributes
+                  .alternativeText
+              }
               width={0}
               height={0}
               sizes="100vw, (min-width: 768px) 50vw"
@@ -140,7 +178,9 @@ function Product({ params }) {
               !itemInCart
                 ? !selectedSize
                   ? notify()
-                  : dispatch(addToCart({ ...productData, id: productId, selectedSize }))
+                  : dispatch(
+                      addToCart({ ...productData, id: productId, selectedSize })
+                    )
                 : router.push("/cart")
             }
           >

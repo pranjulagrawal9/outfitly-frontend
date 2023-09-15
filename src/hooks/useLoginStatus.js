@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 export function useLoginStatus() {
-  const jwt = localStorage.getItem("jwt");
   const [isUserLoggedIn, setIsUserLoggedIn] = useState();
   useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
     async function getLoginStatus() {
       try {
         const res = await fetch(
@@ -21,7 +21,7 @@ export function useLoginStatus() {
       }
     }
     getLoginStatus();
-  }, [jwt]);
+  }, []);
 
   return isUserLoggedIn;
 }

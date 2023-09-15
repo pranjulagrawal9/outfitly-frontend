@@ -26,7 +26,7 @@ const loadState = () => {
   }
 };
 
-const persistedState = loadState();
+const persistedState = typeof window === "undefined" ? undefined : loadState();
 export const store = configureStore({
   reducer: {
     cart: cartReducer,

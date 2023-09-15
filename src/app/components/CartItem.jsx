@@ -14,8 +14,6 @@ function CartItem(item) {
 
   const sizeModalRef = useRef(null);
   const QtyModalRef = useRef(null);
-
-  //   const [selectedSize, setSelectedSize] = useState(item.selectedSize);
   const dispatch = useDispatch();
 
   function closeSizeModal(e) {

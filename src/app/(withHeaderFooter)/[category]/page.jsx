@@ -8,6 +8,7 @@ import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 function Products({ params }) {
   const [products, setProducts] = useState([]);
@@ -145,7 +146,7 @@ function Products({ params }) {
     }
   `;
 
-  const { data, refetch } = useQuery(GetProducts, {
+  const { data, refetch, loading } = useQuery(GetProducts, {
     variables: { filters, sortCriteria, page },
   });
 
@@ -320,43 +321,58 @@ function Products({ params }) {
         </div>
         <div className="flex-[4] py-3 px-5">
           <div className="flex flex-wrap justify-between">
-            {products?.map(({ id, attributes }) => (
-              <Link
-                href={`/${params.category}/${attributes.slug}-${id}`}
-                key={id}
-                className="w-[48%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
-              >
-                <div className="relative">
-                  <Image
-                    alt={attributes.images.data[0].attributes.alternativeText}
-                    src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
-                    width={0}
-                    height={0}
-                    sizes="50vw, (min-width: 768px) 33vw"
-                    className="w-full group-hover:hidden"
-                  />
-                  <Image
-                    alt={attributes.images.data[1].attributes.alternativeText}
-                    src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
-                    width={0}
-                    height={0}
-                    sizes="50vw, (min-width: 768px) 33vw"
-                    className="w-full hidden group-hover:block"
-                  />
+            {loading
+              ? Array(8)
+                  .fill(0)
+                  .map((_, idx) => (
+                    <Skeleton
+                      key={idx}
+                      className="w-[48%] md:w-[32%] aspect-[4/5] lg:w-[23%] pb-5 mt-5 mb-10"
+                    />
+                  ))
+              : products?.map(({ id, attributes }) => (
+                  <Link
+                    href={`/${params.category}/${attributes.slug}-${id}`}
+                    key={id}
+                    className="w-[48%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
+                  >
+                    <div className="relative">
+                      <Image
+                        alt={
+                          attributes.images.data[0].attributes.alternativeText
+                        }
+                        src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
+                        width={0}
+                        height={0}
+                        sizes="50vw, (min-width: 768px) 33vw"
+                        className="w-full group-hover:hidden"
+                      />
+                      <Image
+                        alt={
+                          attributes.images.data[1].attributes.alternativeText
+                        }
+                        src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
+                        width={0}
+                        height={0}
+                        sizes="50vw, (min-width: 768px) 33vw"
+                        className="w-full hidden group-hover:block"
+                      />
 
-                  <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
-                    <span>{attributes.rating}</span>
-                    <AiFillStar className="text-green-600" />
-                  </div>
-                </div>
+                      <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
+                        <span>{attributes.rating}</span>
+                        <AiFillStar className="text-green-600" />
+                      </div>
+                    </div>
 
-                <div className="px-2 pt-4">
-                  <div className="font-bold">{attributes.brand}</div>
-                  <div>{attributes.title}</div>
-                  <div className="font-bold mt-1">Rs. {attributes.price}</div>
-                </div>
-              </Link>
-            ))}
+                    <div className="px-2 pt-4">
+                      <div className="font-bold">{attributes.brand}</div>
+                      <div>{attributes.title}</div>
+                      <div className="font-bold mt-1">
+                        Rs. {attributes.price}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
 
             {/* dummy cards */}
             <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
