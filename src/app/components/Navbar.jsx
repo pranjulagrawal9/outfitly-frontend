@@ -12,6 +12,7 @@ import { gql, useQuery } from "@apollo/client";
 import ProfileDropdown from "./ProfileDropdown";
 import { Heart } from "lucide-react";
 import { removeUser } from "../store/features/user/userSlice";
+import { redirect, useRouter } from "next/navigation";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +20,7 @@ function Navbar() {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [cartCount, setCartCount] = useState(0);
   const GetMainCategories = gql`
     {
@@ -49,6 +51,7 @@ function Navbar() {
     localStorage.removeItem("jwt");
     dispatch(removeUser());
     setIsMenuOpen(false);
+    router.replace("/login");
   }
 
   useEffect(() => {

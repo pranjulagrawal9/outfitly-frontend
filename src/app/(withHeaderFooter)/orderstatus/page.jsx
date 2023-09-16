@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { clearCart } from "@/app/store/features/cart/cartSlice";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+
 function OrderStatus() {
   const user = useSelector((state) => state.user);
   const [isClient, setIsClient] = useState(false);
@@ -55,7 +56,7 @@ function OrderStatus() {
             ? "We will send you a shipping confirmation email as soon as your order ships."
             : "We could not acquire the payment"}
         </p>
-        <Link href={isOrderSuccess ? "/" : "/cart"}>
+        <Link href={isOrderSuccess ? "/myorders" : "/cart"}>
           <Button className="mt-3 capitalize">
             {isOrderSuccess ? "my orders" : "Try Again"}
           </Button>

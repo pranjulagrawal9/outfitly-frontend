@@ -16,14 +16,17 @@ import {
 } from "@/app/components/ui/dropdown-menu";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../store/features/user/userSlice";
+import { useRouter } from "next/navigation";
 
 export default function ProfileDropdown() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const user = useSelector((state) => state.user);
 
   function handleLogout() {
     localStorage.removeItem("jwt");
     dispatch(removeUser());
+    router.replace("/login");
   }
 
   return (
@@ -49,7 +52,7 @@ export default function ProfileDropdown() {
           <Heart className="mr-2 h-4 w-4" />
           <span>My Wishlist</span>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/myorders")}>
           <Pen className="mr-2 h-4 w-4" />
           <span>My Orders</span>
         </DropdownMenuItem>
