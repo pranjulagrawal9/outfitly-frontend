@@ -22,7 +22,7 @@ function MyOrders() {
         );
         const data = await res.json();
         console.log(data);
-        setData(data.data);
+        setData(data.data.reverse());
       } catch (error) {
         console.log(error);
       } finally {
