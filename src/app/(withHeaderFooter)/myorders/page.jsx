@@ -2,14 +2,19 @@
 
 import SingleOrder from "@/app/components/SingleOrder";
 import { Skeleton } from "@/app/components/ui/skeleton";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import nothingInBag from "../../../../public/nothingInBag.png";
 
 function MyOrders() {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
+
     async function fetchOrdersData() {
       try {
         const res = await fetch(
@@ -22,15 +27,19 @@ function MyOrders() {
         );
         const data = await res.json();
         console.log(data);
-        setData(data.data.reverse());
+        if (!data.data) setError(data.error.message);
+        else setData(data.data.reverse());
       } catch (error) {
         console.log(error);
+        setError(error);
       } finally {
         setLoading(false);
       }
     }
-
-    fetchOrdersData();
+    if (!token) {
+      setError("Please Login to view your orders!");
+      setLoading(false);
+    } else fetchOrdersData();
   }, []);
 
   if (loading)
@@ -69,7 +78,35 @@ function MyOrders() {
       </div>
     );
 
-  if (!data) return <h1>Error occured...</h1>;
+  if (!data)
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+        <h1 className="text-xl">{error}</h1>
+      </div>
+    );
+
+  if (data.length === 0)
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+        <div className="flex flex-col gap-3 items-center">
+          <h2 className="text-lg lg:text-xl mb-10">
+            Sadly, you haven&apos;t placed any orders till now.
+          </h2>
+          <Image
+            src={nothingInBag}
+            width={200}
+            height={0}
+            alt="nothing in the bag"
+          />
+
+          <Link href="/">
+            <div className="text-xl border-2 border-appPrimary py-2 px-3 rounded-md text-appPrimary font-medium cursor-pointer">
+              Continue Shopping
+            </div>
+          </Link>
+        </div>
+      </div>
+    );
 
   return (
     <div className="m-5 px-5 min-h-[calc(100vh-64px)] max-w-6xl mx-auto">
