@@ -13,6 +13,7 @@ import ProfileDropdown from "./ProfileDropdown";
 import { Heart } from "lucide-react";
 import { removeUser } from "../store/features/user/userSlice";
 import { redirect, useRouter } from "next/navigation";
+import CartIcon from "./CartIcon";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -84,16 +85,13 @@ function Navbar() {
           </div>
 
           <Link href="/">
-            <div className="w-10 relative">
+            <div className="w-32 relative">
               <Image src={logo} alt="logo" />
             </div>
           </Link>
 
-          <div className="lg:hidden relative">
-            <BsBag size="24px" />
-            <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
-              {cartCount}
-            </div>
+          <div className="lg:hidden">
+            <CartIcon cartCount={cartCount} />
           </div>
         </div>
 
@@ -106,7 +104,9 @@ function Navbar() {
             <div className="border-b-2 lg:hidden">
               <h2 className="text-lg font-semibold mb-3">Welcome Guest</h2>
               <Link href="/login">
-                <p className="mb-3">Login / Sign Up</p>
+                <p className="mb-3 text-appPrimary font-bold uppercase">
+                  Login / Sign Up
+                </p>
               </Link>
             </div>
           )}
@@ -126,10 +126,20 @@ function Navbar() {
 
           {isClient && user && (
             <div className="mt-5 flex flex-col gap-5 lg:hidden">
-              <h2>My Account</h2>
-              <h2>My Orders</h2>
-              <h2>My Wishlist</h2>
-              <h2 onClick={handleLogout}>Logout</h2>
+              <h2 className="cursor-pointer">My Account</h2>
+              <h2
+                onClick={() => router.push("/myorders")}
+                className="cursor-pointer"
+              >
+                My Orders
+              </h2>
+              <h2 className="cursor-pointer">My Wishlist</h2>
+              <h2
+                onClick={handleLogout}
+                className="text-appPrimary cursor-pointer font-bold uppercase"
+              >
+                Logout
+              </h2>
             </div>
           )}
         </div>
@@ -141,21 +151,16 @@ function Navbar() {
             </div>
           ) : (
             <Link href="/login">
-              <span className="hidden lg:block">Login</span>
+              <span className="hidden lg:block text-appPrimary font-bold uppercase">
+                Login
+              </span>
             </Link>
           )}
 
           <Heart className="cursor-pointer hidden lg:block" />
-          <Link href="/cart">
-            <div className="max-lg:hidden mr-10 relative">
-              <BsBag size="24px" />
-              {cartCount > 0 && (
-                <div className="w-3 h-3 rounded-full bg-yellow-300 absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
-                  {cartCount}
-                </div>
-              )}
-            </div>
-          </Link>
+          <div className="max-lg:hidden">
+            <CartIcon cartCount={cartCount} />
+          </div>
         </div>
       </div>
     </nav>

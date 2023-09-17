@@ -11,7 +11,7 @@ function MenuItem({ categories, title, setIsMenuOpen }) {
       onClick={() => setIsMenuItemOpen((prev) => !prev)}
     >
       <div className="lg:group">
-        <div className="flex items-center justify-between lg:gap-2 lg:py-2 lg:group-hover:text-white lg:px-3 lg:rounded-lg lg:group-hover:bg-[#2a55e5] lg:uppercase lg:font-semibold">
+        <div className="flex items-center justify-between lg:gap-2 lg:py-2 lg:group-hover:text-white lg:px-3 lg:rounded-lg lg:group-hover:bg-appPrimary lg:uppercase lg:font-semibold">
           <h2>{title}</h2>
           <AiOutlineDown className="lg:text-xs" />
         </div>
@@ -27,7 +27,7 @@ function MenuItem({ categories, title, setIsMenuOpen }) {
               href={`/${title.toLowerCase()}-${category.attributes.slug}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              <li className="lg:hover:bg-gray-100 lg:px-5 lg:py-3">
+              <li className="lg:hover:bg-gray-100 lg:hover:font-bold lg:px-5 lg:py-3">
                 {category.attributes.name}
               </li>
             </Link>

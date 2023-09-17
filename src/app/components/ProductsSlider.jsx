@@ -58,23 +58,45 @@ function ProductsSlider({ title }) {
     const swiperEl = swiperContainerRef.current;
     if (products) {
       Object.assign(swiperEl, {
-        slidesPerView: 1,
+        slidesPerView: 3,
         spaceBetween: 10,
         navigation: true,
         breakpoints: {
           640: {
-            slidesPerView: 2,
+            slidesPerView: 4,
             spaceBetween: 20,
           },
           768: {
-            slidesPerView: 4,
-            spaceBetween: 40,
+            slidesPerView: 5,
+            spaceBetween: 20,
           },
           1024: {
-            slidesPerView: 5,
-            spaceBetween: 50,
+            slidesPerView: 6,
+            spaceBetween: 20,
           },
         },
+        injectStyles: [
+          `
+            .swiper-button-next,
+            .swiper-button-prev {
+              color: #ff5b53;
+              background-color: white;
+              padding: 12px 5px;
+              border-radius: 4px;
+              display: none;
+            }
+            .swiper-pagination-bullet{
+              background-color: #ff5b53;
+            }
+
+            @media (min-width: 768px){
+              .swiper-button-next,
+            .swiper-button-prev{
+              display: block;
+            }
+            }
+        `,
+        ],
       });
 
       swiperEl.initialize();
@@ -86,10 +108,10 @@ function ProductsSlider({ title }) {
       <h2 className="text-center text-4xl font-bold tracking-wider mb-5">
         {title}
       </h2>
-      <div className="w-full h-96">
+      <div className="w-full h-fit">
         <swiper-container
           init="false"
-          class="w-full h-full p-2"
+          class="w-full p-2"
           ref={swiperContainerRef}
         >
           {products?.map((product) => (
@@ -104,15 +126,14 @@ function ProductsSlider({ title }) {
                   width={0}
                   height={0}
                   alt={product.attributes.title}
-                  sizes="100vw, (min-width: 640px) 50vw, (min-width: 768) 25vw, (min-width: 1024px) 20vw"
+                  sizes="33vw, (min-width: 640px) 25vw, (min-width: 768) 20vw, (min-width: 1024px) 20vw"
                   style={{
                     objectFit: "contain",
                     width: "100%",
-                    height: "80%",
                   }}
                 />
-                <h2 className="text-center text-lg font-medium mt-5 md:mt-0">
-                  {product.attributes.title}
+                <h2 className="text-lg font-medium md:mt-2">
+                  {product.attributes.title.substring(0, 20) + "..."}
                 </h2>
               </Link>
             </swiper-slide>

@@ -43,20 +43,26 @@ export default function ProfileDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="hover:font-bold">
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuItem>
+        <DropdownMenuItem className="hover:font-bold">
           <Heart className="mr-2 h-4 w-4" />
           <span>My Wishlist</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/myorders")}>
+        <DropdownMenuItem
+          onClick={() => router.push("/myorders")}
+          className="hover:font-bold"
+        >
           <Pen className="mr-2 h-4 w-4" />
           <span>My Orders</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem
+          onClick={handleLogout}
+          className="font-bold text-appPrimary"
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

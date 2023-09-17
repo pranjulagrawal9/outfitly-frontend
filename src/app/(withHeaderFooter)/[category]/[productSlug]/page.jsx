@@ -160,7 +160,7 @@ function Product({ params }) {
             {productData?.availableSizes?.map((size) => (
               <div
                 className={`border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600 cursor-pointer ${
-                  selectedSize === size ? "bg-black text-white" : ""
+                  selectedSize === size ? "bg-black text-white border-none" : ""
                 }`}
                 key={size}
                 onClick={() => setSelectedSize(size)}
@@ -173,7 +173,7 @@ function Product({ params }) {
 
         <div className="flex gap-4 uppercase font-bold mt-5">
           <div
-            className="flex justify-center bg-[#ffd84d] flex-1 py-3 rounded cursor-pointer"
+            className="flex justify-center bg-appPrimary text-white flex-1 py-3 rounded cursor-pointer"
             onClick={() =>
               !itemInCart
                 ? !selectedSize

@@ -160,7 +160,7 @@ function Cart() {
                 <h3 className="text-lg font-bold">₹ {totalprice}</h3>
               </div>
               <span
-                className="flex-[2] cursor-pointer uppercase text-center py-4 bg-[#42A2A2] text-white font-bold rounded-lg"
+                className="flex-[2] cursor-pointer uppercase text-center py-4 bg-appPrimary text-white font-bold rounded-lg"
                 onClick={handleCheckout}
               >
                 Proceed to checkout
@@ -180,13 +180,13 @@ function Cart() {
       <div className="flex flex-col gap-3 items-center">
         <Image
           src={nothingInBag}
-          width={150}
+          width={200}
           height={0}
           alt="nothing in the bag"
         />
-        <h2 className="text-lg">Nothing in the bag</h2>
+        <h2 className="text-lg lg:text-xl">Nothing in the bag</h2>
         <Link href="/">
-          <div className="text-xl border-2 border-[#51cccc] py-2 px-3 rounded-md text-[#51cccc] font-medium cursor-pointer">
+          <div className="text-xl border-2 border-appPrimary py-2 px-3 rounded-md text-appPrimary font-medium cursor-pointer">
             Continue Shopping
           </div>
         </Link>

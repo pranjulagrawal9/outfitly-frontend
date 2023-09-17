@@ -47,7 +47,7 @@ function Footer() {
       </div>
 
       <div className="flex justify-between items-center px-5 md:px-20 lg:px-48 gap-3 whitespace-nowrap flex-wrap py-3 md:py-5">
-        <p>© 2007-2023 Shopzen.com</p>
+        <p>© 2007-2023 Outfitly.com</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="377"

@@ -20,7 +20,7 @@ function SingleOrder({ id, products, total, createdAt }) {
     <section className="mt-10 border-2 rounded-md shadow-[0px_0px_15px_5px_rgba(0,0,0,0.1)] p-3">
       <div className="flex items-center mb-3 gap-3">
         <h2 className="uppercase font-extrabold bg-gray-100 w-fit py-2 px-3 rounded-2xl ">
-          Order ID:<span className="text-blue-500 ml-1">#{id}</span>
+          Order ID:<span className="text-appPrimary ml-1">#{id}</span>
         </h2>
         <div className="text-slate-400 text-sm font-bold">
           {formattedDateTime}
