@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
-import { BsBag } from "react-icons/bs";
 import logo from "../../../public/logo.png";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
@@ -12,10 +11,12 @@ import { gql, useQuery } from "@apollo/client";
 import ProfileDropdown from "./ProfileDropdown";
 import { Heart } from "lucide-react";
 import { removeUser } from "../store/features/user/userSlice";
-import { redirect, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import CartIcon from "./CartIcon";
 
 function Navbar() {
+  const pathName = usePathname();
+  console.log("pathname, ", pathName);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const cart = useSelector((state) => state.cart);
@@ -103,7 +104,15 @@ function Navbar() {
           {isClient && !user && (
             <div className="border-b-2 lg:hidden">
               <h2 className="text-lg font-semibold mb-3">Welcome Guest</h2>
-              <Link href="/login">
+              <Link
+                href="/login"
+                className={
+                  pathName.startsWith("/login") ||
+                  pathName.startsWith("/signup")
+                    ? "hidden"
+                    : ""
+                }
+              >
                 <p className="mb-3 text-appPrimary font-bold uppercase">
                   Login / Sign Up
                 </p>
@@ -150,7 +159,14 @@ function Navbar() {
               <ProfileDropdown />
             </div>
           ) : (
-            <Link href="/login">
+            <Link
+              href={`/login?ref=${pathName}`}
+              className={
+                pathName.startsWith("/login") || pathName.startsWith("/signup")
+                  ? "hidden"
+                  : ""
+              }
+            >
               <span className="hidden lg:block text-appPrimary font-bold uppercase">
                 Login
               </span>

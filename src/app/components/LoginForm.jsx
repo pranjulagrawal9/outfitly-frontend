@@ -78,6 +78,7 @@ export function LoginForm({ className, ...props }) {
               onBlur={formik.handleBlur}
               value={formik.values.email}
               onFocus={clearFormError}
+              className="text-base"
             />
             {formik.touched.email && formik.errors.email && (
               <div className="text-red-500 text-sm font-medium">
@@ -97,6 +98,7 @@ export function LoginForm({ className, ...props }) {
               onBlur={formik.handleBlur}
               value={formik.values.password}
               onFocus={clearFormError}
+              className="text-base"
             />
             {formik.touched.password && formik.errors.password && (
               <div className="text-red-500 text-sm font-medium">
@@ -110,7 +112,11 @@ export function LoginForm({ className, ...props }) {
               </div>
             )}
           </div>
-          <Button disabled={isLoading} type="submit">
+          <Button
+            disabled={isLoading}
+            type="submit"
+            className=" bg-appSecondary h-12 text-lg hover:bg-appSecondary"
+          >
             {isLoading && (
               <ClipLoader
                 color="rgba(255, 255, 255, 1)"
@@ -118,7 +124,7 @@ export function LoginForm({ className, ...props }) {
                 className="mr-3"
               />
             )}
-            Sign In with Email
+            Login with Email
           </Button>
         </div>
       </form>

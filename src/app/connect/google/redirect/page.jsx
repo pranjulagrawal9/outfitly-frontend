@@ -9,7 +9,7 @@ function Page() {
   const searchparams = useSearchParams();
   const access_token = searchparams.get("access_token");
   const router = useRouter();
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   console.log(access_token);
   console.log(process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL);
 

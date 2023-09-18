@@ -51,7 +51,7 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         appPrimary: "#ff5b53",
-        appSecondary: "#DA5962",
+        appSecondary: "#822420",
       },
       borderRadius: {
         lg: "var(--radius)",
