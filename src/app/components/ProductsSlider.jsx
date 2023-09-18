@@ -103,12 +103,14 @@ function ProductsSlider({ title }) {
     }
   }, [products]);
 
-  return (
+  return loading ? (
+    <div className="h-96"></div>
+  ) : (
     <section className="mt-10">
       <h2 className="text-center text-4xl font-bold tracking-wider mb-5">
         {title}
       </h2>
-      <div className="w-full h-fit">
+      <div className="w-full">
         <swiper-container
           init="false"
           class="w-full p-2"
@@ -123,8 +125,8 @@ function ProductsSlider({ title }) {
               >
                 <Image
                   src={`http://127.0.0.1:1337${product.attributes.images.data[0].attributes.url}`}
-                  width={0}
-                  height={0}
+                  width={300}
+                  height={400}
                   alt={product.attributes.title}
                   sizes="33vw, (min-width: 640px) 25vw, (min-width: 768) 20vw, (min-width: 1024px) 20vw"
                   style={{

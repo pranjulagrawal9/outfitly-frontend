@@ -367,16 +367,16 @@ function Products({ params }) {
                     <Image
                       alt={attributes.images.data[0].attributes.alternativeText}
                       src={`http://127.0.0.1:1337${attributes.images.data[0].attributes.url}`}
-                      width={0}
-                      height={0}
+                      width={300}
+                      height={400}
                       sizes="50vw, (min-width: 768px) 33vw"
                       className="w-full group-hover:hidden"
                     />
                     <Image
                       alt={attributes.images.data[1].attributes.alternativeText}
                       src={`http://127.0.0.1:1337${attributes.images.data[1].attributes.url}`}
-                      width={0}
-                      height={0}
+                      width={300}
+                      height={400}
                       sizes="50vw, (min-width: 768px) 33vw"
                       className="w-full hidden group-hover:block"
                     />
