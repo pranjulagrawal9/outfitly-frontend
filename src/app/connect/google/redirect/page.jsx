@@ -10,8 +10,6 @@ function Page() {
   const access_token = searchparams.get("access_token");
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log(access_token);
-  console.log(process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL);
 
   useEffect(() => {
     async function request() {
@@ -27,7 +25,11 @@ function Page() {
     request();
   });
 
-  return <div>Loading...</div>;
+  return (
+    <div className="h-[calc(100vh-64px)]">
+      Please wait while you are being logged in...
+    </div>
+  );
 }
 
 export default Page;

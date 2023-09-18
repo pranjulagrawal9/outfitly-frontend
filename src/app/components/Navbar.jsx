@@ -16,7 +16,6 @@ import CartIcon from "./CartIcon";
 
 function Navbar() {
   const pathName = usePathname();
-  console.log("pathname, ", pathName);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const cart = useSelector((state) => state.cart);

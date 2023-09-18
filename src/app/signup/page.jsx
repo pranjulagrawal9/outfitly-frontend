@@ -61,6 +61,7 @@ function Signup() {
       </>
     );
   else if (isUserLoggedIn === true) redirect("/");
+  else return <div className="h-[calc(100vh-64px)]"></div>;
 }
 
 export default Signup;
