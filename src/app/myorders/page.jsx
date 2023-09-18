@@ -5,7 +5,7 @@ import { Skeleton } from "@/app/components/ui/skeleton";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import nothingInBag from "../../../../public/nothingInBag.png";
+import nothingInBag from "../../../public/nothingInBag.png";
 
 function MyOrders() {
   const [data, setData] = useState();

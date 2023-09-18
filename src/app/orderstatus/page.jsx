@@ -1,8 +1,8 @@
 "use client";
 
 import { Player } from "@lottiefiles/react-lottie-player";
-import animation_tick from "../../../../public/animation_tick.json";
-import animation_cross from "../../../../public/animation_cross.json";
+import animation_tick from "../../../public/animation_tick.json";
+import animation_cross from "../../../public/animation_cross.json";
 import { Button } from "@/app/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";

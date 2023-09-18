@@ -15,7 +15,7 @@ function Login() {
   if (isUserLoggedIn === false)
     return (
       <>
-        <div className="container relative h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="container relative h-[calc(100vh-64px)] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
           <Link
             href={`/signup${
               searchParams.get("ref") ? `?ref=${searchParams.get("ref")}` : ""
@@ -28,7 +28,7 @@ function Login() {
             Create your account
           </Link>
           <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-            <div className="absolute inset-0 bg-zinc-900" />
+            <div className="absolute inset-0 bg-black" />
             <div className="relative z-20 flex items-center text-lg font-medium">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
