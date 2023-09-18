@@ -283,7 +283,7 @@ function Products({ params }) {
                       name="category"
                       value={category.attributes.slug}
                       id={category.attributes.slug}
-                      className="cursor-pointer w-5 h-5 checkbox"
+                      className="cursor-pointer w-5 h-5 checkbox accent-appPrimary"
                       onChange={handleCheckboxChange}
                     />
                     <label
@@ -307,7 +307,7 @@ function Products({ params }) {
                       name="brand"
                       id={brand}
                       value={brand}
-                      className="cursor-pointer w-5 h-5 checkbox"
+                      className="cursor-pointer w-5 h-5 checkbox accent-appPrimary"
                       onChange={handleCheckboxChange}
                     />
                     <label htmlFor={brand} className="cursor-pointer">
@@ -328,7 +328,7 @@ function Products({ params }) {
                       name="price"
                       value={price.value}
                       id={price.id}
-                      className="cursor-pointer w-5 h-5 checkbox"
+                      className="cursor-pointer w-5 h-5 checkbox accent-appPrimary"
                       onChange={handleCheckboxChange}
                     />
                     <label
