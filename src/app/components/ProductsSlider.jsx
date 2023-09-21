@@ -107,7 +107,7 @@ function ProductsSlider({ title }) {
     <div className="h-96"></div>
   ) : (
     <section className="mt-10">
-      <h2 className="text-center text-4xl font-bold tracking-wider mb-5">
+      <h2 className="text-center text-xl md:text-2xl lg:text-4xl font-bold tracking-wider mb-5">
         {title}
       </h2>
       <div className="w-full">
@@ -134,7 +134,7 @@ function ProductsSlider({ title }) {
                     width: "100%",
                   }}
                 />
-                <h2 className="text-lg font-medium md:mt-2">
+                <h2 className="text-sm md:text-base lg:text-lg font-medium md:mt-2">
                   {product.attributes.title.substring(0, 20) + "..."}
                 </h2>
               </Link>

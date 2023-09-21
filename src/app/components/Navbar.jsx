@@ -111,6 +111,7 @@ function Navbar() {
                     ? "hidden"
                     : ""
                 }
+                onClick={() => setIsMenuOpen(false)}
               >
                 <p className="mb-3 text-appPrimary font-bold uppercase">
                   Login / Sign Up
