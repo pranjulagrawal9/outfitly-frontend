@@ -1,3 +1,5 @@
+"use client";
+
 import { LogOut, User, Heart, Pen } from "lucide-react";
 
 import {

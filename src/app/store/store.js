@@ -1,4 +1,5 @@
 import cartReducer from "./features/cart/cartSlice";
+import menuReducer from "./features/menu/menuSlice";
 import userReducer from "./features/user/userSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -31,6 +32,7 @@ export const store = configureStore({
   reducer: {
     cart: cartReducer,
     user: userReducer,
+    menu: menuReducer,
   },
   preloadedState: persistedState,
 });

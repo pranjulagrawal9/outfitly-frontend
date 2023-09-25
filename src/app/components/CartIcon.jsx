@@ -1,7 +1,21 @@
-import Link from "next/link";
-import { BsBag } from "react-icons/bs";
+"use client";
 
-function CartIcon({ cartCount }) {
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { BsBag } from "react-icons/bs";
+import { useSelector } from "react-redux";
+
+function CartIcon() {
+  const cart = useSelector((state) => state.cart);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const cartCount = cart
+      .map((item) => item.qty)
+      .reduce((total, current) => total + current, 0);
+    setCartCount(cartCount);
+  }, [cart]);
+
   return (
     <Link href="/cart">
       <div className="lg:mr-10 relative">
