@@ -202,29 +202,27 @@ function Products({ params }) {
 
   const handleCheckboxChange = () => {
     const checkboxes = document.querySelectorAll(".checkbox");
-    const map = {};
-
-    checkboxes.forEach((checkbox) => {
-      if (checkbox.checked) {
-        if (map[checkbox.name]) map[checkbox.name].push(checkbox.value);
-        else map[checkbox.name] = [checkbox.value];
-      }
-    });
+    const map = { brand: [], category: [], price: [] };
 
     let globalMin = Number.MAX_VALUE,
       globalMax = -Number.MAX_VALUE;
 
-    map?.price?.forEach((price) => {
-      const min = Number(price.split(" ")[0]);
-      const max = Number(price.split(" ")[2]);
-      globalMin = Math.min(globalMin, min);
-      globalMax = Math.max(globalMax, max);
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        map[checkbox.name].push(checkbox.value);
+
+        if (checkbox.name === "price") {
+          const [min, , max] = checkbox.value.split(" ").map(Number);
+          globalMin = Math.min(globalMin, min);
+          globalMax = Math.max(globalMax, max);
+        }
+      }
     });
 
     setFilterBy({
-      brands: map?.brand || [],
-      categories: map?.category || [],
-      priceRange: map?.price ? [globalMin, globalMax] : [0, 100000],
+      brands: map.brand,
+      categories: map.category,
+      priceRange: map.price.length > 0 ? [globalMin, globalMax] : [0, 100000],
     });
   };
 
