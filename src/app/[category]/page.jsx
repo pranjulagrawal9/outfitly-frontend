@@ -189,6 +189,7 @@ function Products({ params }) {
   }, [allCategories]);
 
   function handleClearAll() {
+    setPage(1);
     setFilterBy({
       brands: [],
       categories: [],
@@ -201,6 +202,7 @@ function Products({ params }) {
   }
 
   const handleCheckboxChange = () => {
+    setPage(1);
     const checkboxes = document.querySelectorAll(".checkbox");
     const map = { brand: [], category: [], price: [] };
 
