@@ -9,7 +9,7 @@ export default function ProductSizesContainer({ productData, productId }) {
     <>
       <div className="mt-5">
         <h2 className="font-semibold mb-3 uppercase lg:text-lg">Select Size</h2>
-        <div className="flex gap-5">
+        <div className="flex gap-5 overflow-x-auto scrollbar-hide">
           {productData?.availableSizes?.map((size) => (
             <div
               className={`border p-7 rounded-lg w-7 h-5 flex justify-center items-center text-xl border-gray-600 cursor-pointer ${
