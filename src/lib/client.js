@@ -9,10 +9,7 @@ export const { getClient } = registerApolloClient(() => {
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link: new HttpLink({
-      uri: "http://127.0.0.1:1337/graphql",
-      // you can disable result caching here if you want to
-      // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
-      // fetchOptions: { cache: "no-store" },
+      uri: `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/graphql`,
     }),
   });
 });

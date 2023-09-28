@@ -9,7 +9,10 @@ export default function ProductImagesContainer({ productData }) {
     <div className="flex flex-col md:flex-row-reverse md:flex-1 md:gap-5">
       <div className="w-full h-[500px] md:h-auto md:w-[85%]">
         <Image
-          src={`http://127.0.0.1:1337${productData?.images.data[currMainImage].attributes.url}`}
+          src={`${
+            process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+            productData?.images.data[currMainImage].attributes.url
+          }`}
           alt={
             productData?.images.data[currMainImage].attributes.alternativeText
           }
@@ -29,7 +32,9 @@ export default function ProductImagesContainer({ productData }) {
             onClick={() => setCurrMainImage(idx)}
           >
             <Image
-              src={`http://127.0.0.1:1337${attributes.url}`}
+              src={`${
+                process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL + attributes.url
+              }`}
               alt={attributes.alternativeText}
               width={0}
               height={0}

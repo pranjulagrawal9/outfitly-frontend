@@ -118,7 +118,10 @@ function CartItem(item) {
         </div>
         <div>
           <Image
-            src={`http://127.0.0.1:1337${item?.images.data[0].attributes.url}`}
+            src={`${
+              process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+              item?.images.data[0].attributes.url
+            }`}
             alt={item?.images.data[0].attributes.alternativeText}
             width={120}
             height={0}

@@ -35,7 +35,7 @@ export function SignupForm({ className, ...props }) {
   async function handleSignup(values) {
     setIsLoading(true);
     const response = await fetch(
-      "http://localhost:1337/api/auth/local/register",
+      `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/auth/local/register`,
       {
         method: "POST",
         headers: {

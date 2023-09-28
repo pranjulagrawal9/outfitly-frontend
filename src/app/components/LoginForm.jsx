@@ -24,16 +24,19 @@ export function LoginForm({ className, ...props }) {
   async function handleLogin(values) {
     setIsLoading(true);
 
-    const response = await fetch("http://localhost:1337/api/auth/local", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        identifier: values.email,
-        password: values.password,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/auth/local`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: values.email,
+          password: values.password,
+        }),
+      }
+    );
     const jsonData = await response.json();
     console.log(jsonData);
     if (jsonData.error) {

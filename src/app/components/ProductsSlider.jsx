@@ -73,7 +73,10 @@ function ProductsSlider({ products }) {
             }/${product.attributes.slug}-${product.id}`}
           >
             <Image
-              src={`http://127.0.0.1:1337${product.attributes.images.data[0].attributes.url}`}
+              src={`${
+                process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                product.attributes.images.data[0].attributes.url
+              }`}
               width={300}
               height={400}
               alt={product.attributes.title}
