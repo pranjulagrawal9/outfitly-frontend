@@ -23,5 +23,5 @@ export default async function getCarouselImages() {
   `;
   const { data, error } = await getClient().query({ query });
   if (error) console.log(error);
-  else return data.sliders.data[0].attributes.images.data;
+  else return data.sliders.data[0]?.attributes.images.data;
 }
