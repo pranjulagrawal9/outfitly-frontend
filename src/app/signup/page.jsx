@@ -5,6 +5,7 @@ import { SignupForm } from "@/app/components/SignupForm";
 import { redirect } from "next/navigation";
 import { useLoginStatus } from "@/hooks/useLoginStatus";
 import Image from "next/image";
+import shoppingImg from "../../../public/shopping.webp";
 
 function Signup() {
   const isUserLoggedIn = useLoginStatus();
@@ -18,7 +19,7 @@ function Signup() {
               Welcome to the world of Outfitly!
             </h2>
             <Image
-              src={"https://images.bewakoof.com/web/group-19-1617704502.png"}
+              src={shoppingImg}
               alt="image"
               width={500}
               height={500}
