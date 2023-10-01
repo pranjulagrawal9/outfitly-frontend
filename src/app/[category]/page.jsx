@@ -366,10 +366,12 @@ function Products({ params }) {
                   <div className="relative">
                     <Image
                       alt={attributes.images.data[0].attributes.alternativeText}
-                      src={`${
-                        process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
-                        attributes.images.data[0].attributes.url
-                      }`}
+                      src={
+                        process.env.NODE_ENV === "development"
+                          ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                            attributes.images.data[0].attributes.url
+                          : attributes.images.data[0].attributes.url
+                      }
                       width={300}
                       height={400}
                       sizes="50vw, (min-width: 768px) 33vw"
@@ -377,10 +379,12 @@ function Products({ params }) {
                     />
                     <Image
                       alt={attributes.images.data[1].attributes.alternativeText}
-                      src={`${
-                        process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
-                        attributes.images.data[1].attributes.url
-                      }`}
+                      src={
+                        process.env.NODE_ENV === "development"
+                          ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                            attributes.images.data[1].attributes.url
+                          : attributes.images.data[1].attributes.url
+                      }
                       width={300}
                       height={400}
                       sizes="50vw, (min-width: 768px) 33vw"

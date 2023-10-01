@@ -55,9 +55,12 @@ function Slider({ data }) {
       {data?.map((slide) => (
         <swiper-slide key={slide.id}>
           <Image
-            src={`${
-              process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL + slide.attributes.url
-            }`}
+            src={
+              process.env.NODE_ENV === "development"
+                ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                  slide.attributes.url
+                : slide.attributes.url
+            }
             fill="true"
             alt={slide.attributes.alternativeText}
             className="block w-full h-full object-cover"

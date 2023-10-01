@@ -118,13 +118,15 @@ function CartItem(item) {
         </div>
         <div>
           <Image
-            src={`${
-              process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
-              item?.images.data[0].attributes.url
-            }`}
+            src={
+              process.env.NODE_ENV === "development"
+                ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                  item?.images.data[0].attributes.url
+                : item?.images.data[0].attributes.url
+            }
             alt={item?.images.data[0].attributes.alternativeText}
             width={120}
-            height={0}
+            height={120}
             className="rounded-lg"
           />
         </div>

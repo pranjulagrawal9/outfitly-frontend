@@ -9,10 +9,12 @@ export default function ProductImagesContainer({ productData }) {
     <div className="flex flex-col md:flex-row-reverse md:flex-1 md:gap-5">
       <div className="w-full h-[500px] md:h-auto md:w-[85%]">
         <Image
-          src={`${
-            process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
-            productData?.images.data[currMainImage].attributes.url
-          }`}
+          src={
+            process.env.NODE_ENV === "development"
+              ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                productData?.images.data[currMainImage].attributes.url
+              : productData?.images.data[currMainImage].attributes.url
+          }
           alt={
             productData?.images.data[currMainImage].attributes.alternativeText
           }
@@ -32,9 +34,11 @@ export default function ProductImagesContainer({ productData }) {
             onClick={() => setCurrMainImage(idx)}
           >
             <Image
-              src={`${
-                process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL + attributes.url
-              }`}
+              src={
+                process.env.NODE_ENV === "development"
+                  ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL + attributes.url
+                  : attributes.url
+              }
               alt={attributes.alternativeText}
               width={0}
               height={0}

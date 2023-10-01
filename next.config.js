@@ -6,7 +6,7 @@ const nextConfig = {
         hostname: "127.0.0.1",
       },
       {
-        hostname: "outfitly-backend-production.up.railway.app",
+        hostname: "res.cloudinary.com",
       },
     ],
   },
