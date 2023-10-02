@@ -87,6 +87,8 @@ function ProductsSlider({ products }) {
                 objectFit: "contain",
                 width: "100%",
               }}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8cuRWPQAHmQLj6nzMoQAAAABJRU5ErkJggg=="
             />
             <h2 className="text-sm md:text-base lg:text-lg font-medium md:mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
               {product.attributes.title}

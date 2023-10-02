@@ -10,6 +10,8 @@ function OrderedProduct({ image, price, quantity, size, title }) {
           width="100"
           height="100"
           className="w-12 md:w-20 shrink-0"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8cuRWPQAHmQLj6nzMoQAAAABJRU5ErkJggg=="
         />
 
         <div className="flex flex-col justify-between md:py-2 w-4/5">

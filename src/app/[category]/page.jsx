@@ -376,6 +376,8 @@ function Products({ params }) {
                       height={400}
                       sizes="50vw, (min-width: 768px) 33vw"
                       className="w-full group-hover:hidden"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8cuRWPQAHmQLj6nzMoQAAAABJRU5ErkJggg=="
                     />
                     <Image
                       alt={attributes.images.data[1].attributes.alternativeText}

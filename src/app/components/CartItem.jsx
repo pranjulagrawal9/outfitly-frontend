@@ -128,6 +128,8 @@ function CartItem(item) {
           width={120}
           height={120}
           className="rounded-lg w-20 md:w-28"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8cuRWPQAHmQLj6nzMoQAAAABJRU5ErkJggg=="
         />
       </div>
 

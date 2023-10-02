@@ -22,6 +22,8 @@ export default function ProductImagesContainer({ productData }) {
           height={500}
           sizes="100vw, (min-width: 768px) 50vw"
           className="w-full h-full object-cover md:object-contain md:object-top"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8cuRWPQAHmQLj6nzMoQAAAABJRU5ErkJggg=="
         />
       </div>
       <div className="flex w-full gap-5 mt-5 px-3 md:flex-col md:w-[15%] md:mt-0 md:px-0">
@@ -44,6 +46,8 @@ export default function ProductImagesContainer({ productData }) {
               height={100}
               sizes="20vw"
               className="w-full"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8cuRWPQAHmQLj6nzMoQAAAABJRU5ErkJggg=="
             />
           </div>
         ))}
