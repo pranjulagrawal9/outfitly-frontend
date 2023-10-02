@@ -16,11 +16,7 @@ export default function Hamburger() {
         document.body.classList.toggle("nav-open");
       }}
     >
-      {isMenuOpen ? (
-        <RxCross1 fontSize="32px" />
-      ) : (
-        <RxHamburgerMenu fontSize="32px" />
-      )}
+      {isMenuOpen ? <RxCross1 size={24} /> : <RxHamburgerMenu size={24} />}
     </div>
   );
 }

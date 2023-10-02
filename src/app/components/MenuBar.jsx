@@ -29,7 +29,7 @@ export default function MenuBar({ mainCategories }) {
 
   return (
     <div
-      className={`p-5 h-[calc(100vh-64px)] hidden lg:mr-20 ${
+      className={`p-5 h-[calc(100vh-56px)] hidden lg:mr-20 ${
         onClient && isMenuOpen && "!flex flex-col"
       } lg:flex lg:flex-row lg:h-fit lg:p-0 lg:gap-10`}
     >
@@ -70,7 +70,10 @@ export default function MenuBar({ mainCategories }) {
         <div className="mt-5 flex flex-col gap-5 lg:hidden">
           <h2 className="cursor-pointer">My Account</h2>
           <h2
-            onClick={() => router.push("/myorders")}
+            onClick={() => {
+              router.push("/myorders");
+              dispatch(closeMenu());
+            }}
             className="cursor-pointer"
           >
             My Orders
@@ -78,7 +81,7 @@ export default function MenuBar({ mainCategories }) {
           <h2 className="cursor-pointer">My Wishlist</h2>
           <h2
             onClick={handleLogout}
-            className="text-appPrimary cursor-pointer font-bold uppercase"
+            className="text-appPrimary mb-5 cursor-pointer font-bold uppercase"
           >
             Logout
           </h2>

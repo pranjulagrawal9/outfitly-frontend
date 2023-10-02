@@ -88,8 +88,8 @@ function ProductsSlider({ products }) {
                 width: "100%",
               }}
             />
-            <h2 className="text-sm md:text-base lg:text-lg font-medium md:mt-2">
-              {product.attributes.title.substring(0, 20) + "..."}
+            <h2 className="text-sm md:text-base lg:text-lg font-medium md:mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
+              {product.attributes.title}
             </h2>
           </Link>
         </swiper-slide>

@@ -2,7 +2,7 @@ import { Skeleton } from "../components/ui/skeleton";
 
 function CartLoading() {
   return (
-    <div className="min-h-[calc(100vh-64px)]">
+    <div className="min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)]">
       <div className="px-5 mt-5 max-w-7xl mx-auto lg:mt-20">
         <div className="flex flex-col lg:flex-row gap-5">
           <div className="flex flex-col gap-5 lg:w-3/5">

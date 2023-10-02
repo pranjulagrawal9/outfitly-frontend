@@ -17,14 +17,14 @@ function Login() {
   if (isUserLoggedIn === false)
     return (
       <>
-        <div className="container relative h-[calc(100vh-64px)] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="container min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] relative flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
           <Link
             href={`/signup${
               searchParams.get("ref") ? `?ref=${searchParams.get("ref")}` : ""
             }`}
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              "absolute right-4 top-4 md:right-8 md:top-8 uppercase text-appSecondary"
+              "hidden sm:block absolute right-4 text-sm lg:text-base top-4 md:right-8 md:top-8 uppercase text-appSecondary"
             )}
           >
             Create your account
@@ -44,16 +44,16 @@ function Login() {
           <div className="lg:p-8">
             <div className="mx-auto flex w-full flex-col justify-center space-y-6 items-center">
               <div className="flex flex-col space-y-2 text-center">
-                <h1 className="text-2xl font-semibold tracking-tight text-appSecondary">
+                <h1 className="text-lg lg:text-xl font-semibold mt-5 tracking-tight text-appSecondary">
                   Login to your account
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-sm lg:text-base">
                   for Latest trends, exciting offers and everything Outfitly!
                 </p>
               </div>
               <div className="sm:w-[400px]">
                 <LoginForm />
-                <p className="px-8 mt-5 text-center text-sm text-muted-foreground">
+                <p className="px-8 mt-5 text-center text-xs lg:text-sm text-muted-foreground">
                   By creating an account or logging in, you agree to our{" "}
                   <Link
                     href="/terms"
@@ -77,7 +77,8 @@ function Login() {
       </>
     );
   else if (isUserLoggedIn === true) redirect("/");
-  else return <div className="h-[calc(100vh-64px)]"></div>;
+  else
+    return <div className="h-[calc(100vh-56px)] lg:h-[calc(100vh-64px)]"></div>;
 }
 
 export default Login;

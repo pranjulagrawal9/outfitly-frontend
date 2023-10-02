@@ -13,11 +13,11 @@ export default async function Navbar() {
   return (
     <nav className="fixed left-0 top-0 right-0 z-20">
       <div className="select-none bg-white overflow-auto shadow-md lg:flex lg:overflow-visible lg:h-16 lg:items-center lg:justify-between w-screen">
-        <div className="flex justify-between p-3 h-16 shadow-md lg:shadow-none lg:h-full lg:ml-10 items-center">
+        <div className="flex justify-between p-3 h-14 shadow-md lg:shadow-none lg:h-full lg:ml-10 items-center">
           <Hamburger />
 
           <Link href="/">
-            <div className="w-32 relative">
+            <div className="w-24 lg:w-32 relative">
               <Image src={logo} alt="logo" />
             </div>
           </Link>

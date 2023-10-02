@@ -67,7 +67,7 @@ function Cart() {
 
   if (!isClient)
     return (
-      <div className="min-h-[calc(100vh-64px)]">
+      <div>
         <div className="px-5 mt-5 max-w-7xl mx-auto lg:mt-20">
           <div className="flex flex-col lg:flex-row gap-5">
             <div className="flex flex-col gap-5 lg:w-3/5">
@@ -77,7 +77,7 @@ function Cart() {
             </div>
 
             <div className="lg:w-2/5 lg:border-2 h-fit">
-              <div className="mb-24 lg:mb-0">
+              <div>
                 <Skeleton className="w-full h-10" />
                 <div className="px-5">
                   <div className="flex justify-between py-5 border-b-2">
@@ -126,8 +126,8 @@ function Cart() {
             ))}
           </div>
 
-          <div className="lg:w-2/5 lg:border-2 h-fit">
-            <div className="mb-24 lg:mb-0">
+          <div className="lg:w-2/5 lg:border-2 h-fit text-sm lg:text-base">
+            <div>
               <h2 className="uppercase font-bold bg-gray-200 pl-5 py-3">
                 Price Summary
               </h2>
@@ -157,7 +157,9 @@ function Cart() {
             <div className="flex fixed bottom-0 left-0 right-0 py-4 px-3 shadow-2xl bg-white lg:static lg:shadow-none">
               <div className="flex-1 flex flex-col justify-center">
                 <h2>Total</h2>
-                <h3 className="text-lg font-bold">₹ {totalprice}</h3>
+                <h3 className="text-base lg:text-lg font-bold">
+                  ₹ {totalprice}
+                </h3>
               </div>
               <span
                 className="flex-[2] cursor-pointer uppercase text-center py-4 bg-appPrimary text-white font-bold rounded-lg"
@@ -176,13 +178,14 @@ function Cart() {
       )}
     </>
   ) : (
-    <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+    <div className="min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] flex justify-center items-center">
       <div className="flex flex-col gap-3 items-center">
         <Image
           src={nothingInBag}
           width={200}
-          height={0}
+          height={200}
           alt="nothing in the bag"
+          className="w-40 lg:w-auto"
         />
         <h2 className="text-lg lg:text-xl">Nothing in the bag</h2>
         <Link href="/">

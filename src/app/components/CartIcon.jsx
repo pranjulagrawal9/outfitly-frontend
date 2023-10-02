@@ -19,9 +19,9 @@ function CartIcon() {
   return (
     <Link href="/cart">
       <div className="lg:mr-10 relative">
-        <BsBag size="24px" />
+        <BsBag className="w-5 h-5 lg:w-6 lg:h-6" />
         {cartCount > 0 && (
-          <div className="w-3 h-3 rounded-full bg-appPrimary text-white absolute -top-1 left-3 p-2.5 flex justify-center items-center text-sm">
+          <div className="w-4 h-4 lg:w-5 lg:h-5 rounded-full bg-appPrimary text-white absolute -top-1 left-3 flex justify-center items-center text-sm">
             {cartCount}
           </div>
         )}

@@ -13,7 +13,7 @@ function Signup() {
   if (isUserLoggedIn === false)
     return (
       <>
-        <div className="container relative h-[calc(100vh-64px)] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="container min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] mt-5 relative flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
           <div className="relative hidden h-full flex-col bg-muted text-white dark:border-r lg:flex items-center bg-gradient-to-t from-orange-200 to-white">
             <h2 className="text-appPrimary tracking-wider mt-12 text-3xl font-bold mx-5">
               Welcome to the world of Outfitly!
@@ -29,16 +29,16 @@ function Signup() {
           <div className="lg:p-8">
             <div className="mx-auto flex w-full flex-col justify-center space-y-6 items-center">
               <div className="flex flex-col space-y-2 text-center">
-                <h1 className="text-2xl font-semibold tracking-tight text-appSecondary">
+                <h1 className="text-lg lg:text-xl font-semibold tracking-tight text-appSecondary">
                   Create your account
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-sm lg:text-base">
                   for Latest trends, exciting offers and everything Outfitly!
                 </p>
               </div>
               <div className="sm:w-[400px]">
                 <SignupForm />
-                <p className="px-8 mt=5 text-center text-sm text-muted-foreground">
+                <p className="px-8 mt-5 text-center text-xs lg:text-sm text-muted-foreground">
                   By clicking continue, you agree to our{" "}
                   <Link
                     href="/terms"
@@ -62,7 +62,8 @@ function Signup() {
       </>
     );
   else if (isUserLoggedIn === true) redirect("/");
-  else return <div className="h-[calc(100vh-64px)]"></div>;
+  else
+    return <div className="h-[calc(100vh-56px)] lg:h-[calc(100vh-64px)]"></div>;
 }
 
 export default Signup;

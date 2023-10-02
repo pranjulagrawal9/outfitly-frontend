@@ -1,7 +1,7 @@
 "use client";
 
 import { AiOutlineHeart } from "react-icons/ai";
-import { PiShoppingBagLight } from "react-icons/pi";
+import { GiShoppingBag } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { addToCart } from "../store/features/cart/cartSlice";
@@ -39,7 +39,7 @@ export default function ProductButtons({
   }, [cart]);
 
   return (
-    <div className="flex gap-4 uppercase font-bold mt-5">
+    <div className="flex gap-1 lg:gap-4 uppercase font-bold mt-5">
       <div
         className="flex justify-center bg-appPrimary text-white flex-1 py-3 rounded cursor-pointer"
         onClick={() =>
@@ -53,7 +53,7 @@ export default function ProductButtons({
         }
       >
         <div className="flex gap-3 items-center">
-          <PiShoppingBagLight size="24px" />
+          <GiShoppingBag size="20px" />
           <span>{itemInCart ? "Go to bag" : "Add to bag"}</span>
         </div>
       </div>

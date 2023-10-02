@@ -18,8 +18,8 @@ export default function ProductImagesContainer({ productData }) {
           alt={
             productData?.images.data[currMainImage].attributes.alternativeText
           }
-          width={0}
-          height={0}
+          width={400}
+          height={500}
           sizes="100vw, (min-width: 768px) 50vw"
           className="w-full h-full object-cover md:object-contain md:object-top"
         />
@@ -40,8 +40,8 @@ export default function ProductImagesContainer({ productData }) {
                   : attributes.url
               }
               alt={attributes.alternativeText}
-              width={0}
-              height={0}
+              width={100}
+              height={100}
               sizes="20vw"
               className="w-full"
             />

@@ -26,7 +26,7 @@ function OrderStatus() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center my-10">
+    <div className="flex justify-center items-center mt-20">
       <div className="flex flex-col gap-3 max-w-xs lg:max-w-none items-center">
         {isOrderSuccess ? (
           <Player

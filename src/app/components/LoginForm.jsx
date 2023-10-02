@@ -118,7 +118,7 @@ export function LoginForm({ className, ...props }) {
           <Button
             disabled={isLoading}
             type="submit"
-            className=" bg-appSecondary h-12 text-lg hover:bg-appSecondary"
+            className=" bg-appSecondary h-12 lg:text-lg hover:bg-appSecondary"
           >
             {isLoading && (
               <ClipLoader

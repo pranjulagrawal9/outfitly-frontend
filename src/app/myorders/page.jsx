@@ -44,7 +44,7 @@ function MyOrders() {
 
   if (loading)
     return (
-      <div className="m-5 px-5 min-h-[calc(100vh-64px)] max-w-6xl mx-auto">
+      <div className="m-5 px-5 min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] max-w-6xl mx-auto">
         <Skeleton className="w-24 h-10" />
 
         {Array(3)
@@ -80,14 +80,14 @@ function MyOrders() {
 
   if (!data)
     return (
-      <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+      <div className="min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] flex justify-center items-center">
         <h1 className="text-xl">{error}</h1>
       </div>
     );
 
   if (data.length === 0)
     return (
-      <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+      <div className="min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] flex justify-center items-center">
         <div className="flex flex-col gap-3 items-center">
           <h2 className="text-lg lg:text-xl mb-10">
             Sadly, you haven&apos;t placed any orders till now.
@@ -109,8 +109,8 @@ function MyOrders() {
     );
 
   return (
-    <div className="m-5 px-5 min-h-[calc(100vh-64px)] max-w-6xl mx-auto">
-      <h1 className="text-xl font-bold lg:text-3xl text-slate-700">
+    <div className="m-5 px-5 max-w-6xl mx-auto">
+      <h1 className="text-lg font-bold lg:text-2xl text-slate-700">
         My Orders
       </h1>
 

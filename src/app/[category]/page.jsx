@@ -234,7 +234,7 @@ function Products({ params }) {
   }, [filters, sortCriteria, page]);
 
   return (
-    <div className="min-h-[calc(100vh-64px)]">
+    <div>
       <div className="justify-between pt-5 pb-2 items-center border-b-[1px] hidden lg:flex">
         <div className="flex gap-5 items-center pl-5 pt-5">
           <span className="uppercase font-bold">Filters</span>
@@ -343,7 +343,7 @@ function Products({ params }) {
             </div>
           </div>
         </div>
-        <div className="flex-[4] py-3 px-5">
+        <div className="flex-[4] lg:py-3 md:px-5">
           <div className="flex flex-wrap justify-between">
             {loading ? (
               Array(8)
@@ -351,7 +351,7 @@ function Products({ params }) {
                 .map((_, idx) => (
                   <Skeleton
                     key={idx}
-                    className="w-[48%] md:w-[32%] aspect-[4/5] lg:w-[23%] pb-5 mt-5 mb-10"
+                    className="w-[48%] md:w-[32%] aspect-[4/5] lg:w-[23%] pb-5 mt-5"
                   />
                 ))
             ) : products?.length === 0 ? (
@@ -361,7 +361,7 @@ function Products({ params }) {
                 <Link
                   href={`/${params.category}/${attributes.slug}-${id}`}
                   key={id}
-                  className="w-[48%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 mb-10 cursor-pointer hover:shadow-xl group"
+                  className="w-[50%] md:w-[32%] h-fit lg:w-[23%] pb-5 mt-5 lg:mb-10 cursor-pointer lg:hover:shadow-xl group border lg:border-none"
                 >
                   <div className="relative">
                     <Image
@@ -391,16 +391,22 @@ function Products({ params }) {
                       className="w-full hidden group-hover:block"
                     />
 
-                    <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm">
+                    <div className="absolute bottom-2 left-3 bg-white bg-opacity-90 flex items-center gap-1 py-0.5 px-1.5 rounded-sm text-sm lg:text-base">
                       <span>{attributes.rating}</span>
                       <AiFillStar className="text-green-600" />
                     </div>
                   </div>
 
                   <div className="px-2 pt-4">
-                    <div className="font-bold">{attributes.brand}</div>
-                    <div>{attributes.title}</div>
-                    <div className="font-bold mt-1">Rs. {attributes.price}</div>
+                    <div className="font-bold text-sm lg:text-base">
+                      {attributes.brand}
+                    </div>
+                    <div className="text-xs lg:text-base">
+                      {attributes.title}
+                    </div>
+                    <div className="font-bold mt-1 text-sm lg:text-base">
+                      Rs. {attributes.price}
+                    </div>
                   </div>
                 </Link>
               ))
@@ -411,7 +417,7 @@ function Products({ params }) {
             <div className="w-[48%] md:w-[32%] lg:w-[23%]"></div>
           </div>
           {products?.length > 0 && (
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-5">
               <div className="flex gap-3 items-center">
                 <Button
                   variant="outline"
@@ -421,7 +427,7 @@ function Products({ params }) {
                     scrollTo(0, 0);
                   }}
                 >
-                  <ArrowLeftIcon className="cursor-pointer" />
+                  <ArrowLeftIcon className="cursor-pointer" size={16} />
                 </Button>
 
                 <span>
@@ -435,7 +441,7 @@ function Products({ params }) {
                     scrollTo(0, 0);
                   }}
                 >
-                  <ArrowRightIcon className="cursor-pointer" />
+                  <ArrowRightIcon className="cursor-pointer" size={16} />
                 </Button>
               </div>
             </div>

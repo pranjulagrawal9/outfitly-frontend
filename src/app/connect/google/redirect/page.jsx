@@ -26,7 +26,7 @@ function Page() {
   });
 
   return (
-    <div className="h-[calc(100vh-64px)]">
+    <div className="h-[calc(100vh-56px)] lg:h-[calc(100vh-64px)]">
       Please wait while you are being logged in...
     </div>
   );

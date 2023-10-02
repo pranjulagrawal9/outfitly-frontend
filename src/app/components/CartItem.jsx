@@ -40,11 +40,11 @@ function CartItem(item) {
 
   return (
     <div className="border-2 rounded-md">
-      <div className="flex gap-3 p-3 lg:p-5 lg:justify-between">
+      <div className="flex gap-3 p-3 lg:p-5 lg:justify-between items-start">
         <div className="flex flex-col gap-4">
-          <h2 className="text-slate-500 lg:text-lg">{item.title}</h2>
+          <h2 className="text-slate-500 text-sm lg:text-lg">{item.title}</h2>
           <div className="flex items-end gap-1">
-            <h2 className="text-lg font-bold lg:text-xl">₹ {item.price}</h2>
+            <h2 className="font-bold lg:text-xl">₹ {item.price}</h2>
             <h3 className="text-gray-400 line-through">₹ {item.mrp}</h3>
           </div>
           <div className="flex gap-5">
@@ -52,7 +52,7 @@ function CartItem(item) {
               className="bg-slate-100 px-3 py-2 rounded-md flex items-center gap-1 cursor-pointer"
               onClick={() => setOpenSizeModal(true)}
             >
-              <h3>
+              <h3 className="text-sm lg:text-base">
                 Size: <span className="font-bold">{item.selectedSize}</span>
               </h3>
               <AiOutlineDown size={12} />
@@ -85,7 +85,7 @@ function CartItem(item) {
               className="bg-slate-100 px-3 py-2 rounded-md flex items-center gap-1 cursor-pointer"
               onClick={() => setOpenQtyModal(true)}
             >
-              <h3>
+              <h3 className="text-sm lg:text-base">
                 Qty: <span className="font-bold">{item.qty}</span>
               </h3>
               <AiOutlineDown size={12} />
@@ -116,23 +116,22 @@ function CartItem(item) {
             )}
           </div>
         </div>
-        <div>
-          <Image
-            src={
-              process.env.NODE_ENV === "development"
-                ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
-                  item?.images.data[0].attributes.url
-                : item?.images.data[0].attributes.url
-            }
-            alt={item?.images.data[0].attributes.alternativeText}
-            width={120}
-            height={120}
-            className="rounded-lg"
-          />
-        </div>
+
+        <Image
+          src={
+            process.env.NODE_ENV === "development"
+              ? process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL +
+                item?.images.data[0].attributes.url
+              : item?.images.data[0].attributes.url
+          }
+          alt={item?.images.data[0].attributes.alternativeText}
+          width={120}
+          height={120}
+          className="rounded-lg w-20 md:w-28"
+        />
       </div>
 
-      <div className="flex border-t-2 text-slate-500">
+      <div className="flex border-t-2 text-slate-500 text-sm lg:text-base">
         <span
           className="flex-1 border-r-2 text-center py-4 cursor-pointer"
           onClick={() => dispatch(removeItem(item.id))}

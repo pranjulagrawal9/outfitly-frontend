@@ -1,10 +1,10 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Andada_Pro, Inter } from "next/font/google";
 import { Providers } from "./store/provider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const andada_pro = Andada_Pro({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Outfitly",
@@ -14,10 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ paddingTop: "64px" }}>
+      <body className={andada_pro.className + ` pt-14 lg:pt-16`}>
         <Providers>
           <Navbar />
-          <div className="max-w-[1536px] min-h-[calc(100vh-64px)] mx-auto">
+          <div className="max-w-[1536px] min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] mx-auto">
             {children}
           </div>
           <Footer />
