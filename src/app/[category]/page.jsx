@@ -343,7 +343,7 @@ function Products({ params }) {
             </div>
           </div>
         </div>
-        <div className="flex-[4] lg:py-3 md:px-5">
+        <div className="flex-[4] lg:py-3 md:px-5 min-w-0">
           <div className="flex flex-wrap justify-between">
             {loading ? (
               Array(8)
