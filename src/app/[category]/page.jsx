@@ -400,10 +400,10 @@ function Products({ params }) {
                   </div>
 
                   <div className="px-2 pt-4">
-                    <div className="font-bold text-sm lg:text-base">
+                    <div className="font-bold text-sm lg:text-base whitespace-nowrap overflow-hidden text-ellipsis">
                       {attributes.brand}
                     </div>
-                    <div className="text-xs lg:text-base">
+                    <div className="text-xs lg:text-base whitespace-nowrap overflow-hidden text-ellipsis">
                       {attributes.title}
                     </div>
                     <div className="font-bold mt-1 text-sm lg:text-base">

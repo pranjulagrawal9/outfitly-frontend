@@ -45,7 +45,7 @@ function MyOrders() {
   if (loading)
     return (
       <div className="m-5 px-5 min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] max-w-6xl mx-auto">
-        <Skeleton className="w-24 h-10" />
+        <Skeleton className="w-24 h-5 md:h-8" />
 
         {Array(3)
           .fill(0)
@@ -54,25 +54,25 @@ function MyOrders() {
               key={idx}
               className="mt-5 border-2 rounded-md shadow-md p-3 flex flex-col"
             >
-              <Skeleton className="py-2 px-3 rounded-2xl mb-3 w-28 h-5" />
+              <Skeleton className="rounded-2xl mb-3 w-16 md:w-24 h-4 md:h-5" />
               <div className="flex p-5 justify-between border-b-2">
-                <div className="flex gap-5">
-                  <Skeleton className="w-24 h-28" />
-                  <div className="flex flex-col justify-between md:py-2">
-                    <Skeleton className="w-64 h-5" />
-                    <div className="flex gap-3">
-                      <Skeleton className="w-20 h-10" />
-                      <Skeleton className="w-20 h-10" />
+                <div className="flex gap-5 w-full">
+                  <Skeleton className="w-12 md:w-20 aspect-square" />
+                  <div className="flex flex-col justify-between md:py-2 w-4/5">
+                    <Skeleton className="w-4/5 h-2 md:h-3" />
+                    <div className="flex gap-3 w-1/2">
+                      <Skeleton className="w-full h-2 md:h-3" />
+                      <Skeleton className="w-full h-2 md:h-3" />
                     </div>
-                    <Skeleton className="w-16 h-5" />
+                    <Skeleton className="w-16 h-2 md:h-3" />
                   </div>
                 </div>
-                <div className="hidden md:block pt-2">
-                  <Skeleton className="w-20 h-5" />
-                  <Skeleton className="mt-5 w-24 h-6" />
+                <div className="hidden md:block pt-2 md:w-1/5">
+                  <Skeleton className="w-20 h-3" />
+                  <Skeleton className="mt-5 w-24 h-4" />
                 </div>
               </div>
-              <Skeleton className="mt-3 w-16 h-5 self-end mr-5" />
+              <Skeleton className="mt-3 w-10 md:w-16 h-3 md:h-4 self-end mr-5" />
             </section>
           ))}
       </div>
