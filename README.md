@@ -7,7 +7,7 @@
   <h3 align="center">Outfitly</h3>
 
   <p align="center">
-    An E-Commerce app to buy trending outfits
+   An e-commerce web application designed for purchasing the latest and most trending outfits.
     <br/>
     <br/>
     <a href="https://outfitly.vercel.app">View Demo</a>
