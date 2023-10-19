@@ -31,6 +31,10 @@
 
 ## About The Project
 
+<p><b>Test User:</b> ankush@gmail.com
+  <br/>
+<b>Password:</b> Test123@</p>
+
 ![Screen Shot](https://github.com/pranjulagrawal9/outfitly-frontend/blob/main/Outfitly.gif)
 
 • Outfitly is an E-Commerce web app where users can buy trending
