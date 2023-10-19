@@ -54,7 +54,7 @@ export default function MenuBar({ mainCategories }) {
 
       {onClient && user && (
         <h1 className="text-lg font-bold border-b-2 pb-4 lg:hidden">
-          Hello, {user.name.split(" ")[0]}
+          Hello, {user?.name.split(" ")[0]}
         </h1>
       )}
 
