@@ -41,7 +41,7 @@ export default function ProfileDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel className="italic">
-          Hi, {user?.name.split(" ")[0]}
+          {user?.username}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
