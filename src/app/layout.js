@@ -3,6 +3,7 @@ import { Andada_Pro } from "next/font/google";
 import { Providers } from "./store/provider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { Analytics } from '@vercel/analytics/react';
 
 const andada_pro = Andada_Pro({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           </div>
           <Footer />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
